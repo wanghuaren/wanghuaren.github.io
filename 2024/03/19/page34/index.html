@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Python的主要功能是什么？ 123456Python是一种解释型语言。与C语言等语言不同，Python不需要在运行之前进行编译。Python是动态语言，当您声明变量或类似变量时，您不需要声明变量的类型。Python适合面向对象的编程，因为它允许类的定义以及组合和继承。Python没有访问说明（如C ++的public，private）。在Python中，函数是第一类对象。它们可以分配给变量。类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python面试题整理">
+<meta property="og:url" content="https://wanghuaren.github.io/2024/03/19/page34/index.html">
+<meta property="og:site_name" content="on my way">
+<meta property="og:description" content="Python的主要功能是什么？ 123456Python是一种解释型语言。与C语言等语言不同，Python不需要在运行之前进行编译。Python是动态语言，当您声明变量或类似变量时，您不需要声明变量的类型。Python适合面向对象的编程，因为它允许类的定义以及组合和继承。Python没有访问说明（如C ++的public，private）。在Python中，函数是第一类对象。它们可以分配给变量。类">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-03-19T11:13:52.000Z">
+<meta property="article:modified_time" content="2024-03-19T02:51:00.881Z">
+<meta property="article:author" content="wnghuaren">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>python面试题整理</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2024/03/19/page36/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://wanghuaren.github.io/2024/03/19/page34/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://wanghuaren.github.io/2024/03/19/page34/&text=python面试题整理"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://wanghuaren.github.io/2024/03/19/page34/&title=python面试题整理"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://wanghuaren.github.io/2024/03/19/page34/&is_video=false&description=python面试题整理"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=python面试题整理&body=Check out this article: https://wanghuaren.github.io/2024/03/19/page34/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://wanghuaren.github.io/2024/03/19/page34/&title=python面试题整理"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://wanghuaren.github.io/2024/03/19/page34/&title=python面试题整理"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://wanghuaren.github.io/2024/03/19/page34/&title=python面试题整理"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://wanghuaren.github.io/2024/03/19/page34/&title=python面试题整理"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://wanghuaren.github.io/2024/03/19/page34/&name=python面试题整理&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://wanghuaren.github.io/2024/03/19/page34/&t=python面试题整理"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        python面试题整理
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">wnghuaren</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-03-19T11:13:52.000Z" class="dt-published" itemprop="datePublished">2024-03-19</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>Python的主要功能是什么？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Python是一种解释型语言。与C语言等语言不同，Python不需要在运行之前进行编译。</span><br><span class="line">Python是动态语言，当您声明变量或类似变量时，您不需要声明变量的类型。</span><br><span class="line">Python适合面向对象的编程，因为它允许类的定义以及组合和继承。Python没有访问说明（如C ++的public，private）。</span><br><span class="line">在Python中，函数是第一类对象。它们可以分配给变量。类也是第一类对象</span><br><span class="line">编写Python代码很快，但运行比较慢。Python允许基于C的扩展，例如numpy函数库。</span><br><span class="line">Python可用于许多领域。Web应用程序开发，自动化，数学建模，大数据应用程序等等。它也经常被用作“胶水”代码。..</span><br></pre></td></tr></table></figure>
+
+<p>什么是pep？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PEP代表Python Enhancement Proposal。它是一组规则，指定如何格式化Python代码以获得最大可读性。</span><br></pre></td></tr></table></figure>
+<p>如何在Python中管理内存？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python中的内存管理由Python私有堆空间管理。所有Python对象和数据结构都位于私有堆中。程序员无权访问此私有堆。python解释器负责处理这个问题。</span><br><span class="line">Python对象的堆空间分配由Python的内存管理器完成。核心API提供了一些程序员编写代码的工具。</span><br><span class="line">Python还有一个内置的垃圾收集器，它可以回收所有未使用的内存，并使其可用于堆空间。</span><br></pre></td></tr></table></figure>
+<p>什么是python模块？Python中有哪些常用的内置模块？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Python模块是包含Python代码的.py文件。此代码可以是函数类或变量。一些常用的内置模块包括：sys、math、random、data time、JSON。</span><br></pre></td></tr></table></figure>
+<p>python是否区分大小写？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">是。Python是一种区分大小写的语言。</span><br></pre></td></tr></table></figure>
+
+<p>Python数组和列表有什么区别？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Python中的数组和列表具有相同的存储数据方式。但是，数组只能包含单个数据类型元素，而列表可以包含任何数据类型元素。</span><br></pre></td></tr></table></figure>
+<p>什么是__init__?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__init__是Python中的方法或者结构。在创建类的新对象/实例时，将自动调用此方法来分配内存。所有类都有__init__方法。</span><br></pre></td></tr></table></figure>
+<p>当Python退出时，为什么不清除所有分配的内存？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">当Python退出时，尤其是那些对其他对象具有循环引用的Python模块或者从全局名称空间引用的对象并没有被解除分配或释放。</span><br><span class="line">无法解除分配C库保留的那些内存部分。</span><br><span class="line">退出时，由于拥有自己的高效清理机制，Python会尝试取消分配/销毁其他所有对象。</span><br></pre></td></tr></table></figure>
+
+<p>么是负指数，功能是什么？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Python中的序列是索引的，它由正数和负数组成。积极的数字使用&#x27;0&#x27;作为第一个索引，&#x27;1&#x27;作为第二个索引，进程继续使用。</span><br><span class="line"></span><br><span class="line">负数的索引从&#x27;-1&#x27;开始，表示序列中的最后一个索引，&#x27; - 2&#x27;作为倒数第二个索引，序列像正数一样前进。</span><br><span class="line"></span><br><span class="line">负索引用于从字符串中删除任何换行符，并允许该字符串除了作为S [： - 1]给出的最后一个字符。负索引还用于显示索引以正确的顺序表示字符串。</span><br></pre></td></tr></table></figure>
+
+<p>深拷贝和浅拷贝有什么区别？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">在创建新实例类型时使用浅拷贝，并保留在新实例中复制的值。浅拷贝用于复制引用指针，就像复制值一样。这些引用指向原始对象，并且在类的任何成员中所做的更改也将影响它的原始副本。浅拷贝允许更快地执行程序，它取决于所使用的数据的大小。</span><br><span class="line"></span><br><span class="line">深拷贝用于存储已复制的值。深拷贝不会将引用指针复制到对象。它引用一个对象，并存储一些其他对象指向的新对象。原始副本中所做的更改不会影响使用该对象的任何其他副本。由于为每个被调用的对象创建了某些副本，因此深拷贝会使程序的执行速度变慢。。</span><br></pre></td></tr></table></figure>
+<p>如何在Python中实现多线程？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Python有一个多线程库，但是用多线程来加速代码的效果并不是那么的好，</span><br><span class="line">Python有一个名为Global Interpreter Lock（GIL）的结构。GIL确保每次只能执行一个“线程”。一个线程获取GIL执行相关操作，然后将GIL传递到下一个线程。</span><br><span class="line">虽然看起来程序被多线程并行执行，但它们实际上只是轮流使用相同的CPU核心。</span><br><span class="line">所有这些GIL传递都增加了执行的开销。这意味着多线程并不能让程序运行的更快。</span><br></pre></td></tr></table></figure>
+
+<p>解释Python中的继承。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">继承允许一个类获得另一个类的所有元素(比如属性和方法)。继承提供代码可重用性，使创建和维护应用程序更容易。我们继承的类称为超类，继承的类称为派生/子类。</span><br><span class="line"></span><br><span class="line">以下是Python支持的不同类型的继承：</span><br><span class="line"></span><br><span class="line">单一继承  - 派生类获取单个超类的成员。</span><br><span class="line">多级继承  - 从基类base1继承的派生类d1，d2继承自base2。</span><br><span class="line">分层继承  - 从一个基类可以继承任意数量的子类</span><br><span class="line">多重继承  - 派生类从多个基类继承。</span><br></pre></td></tr></table></figure>
+<p>python是否支持多重继承？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">多重继承意味着可以从多个父类派生一个类。与Java不同，Python支持多重继承。</span><br></pre></td></tr></table></figure>
+
+<p>什么是Python中的多态性？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">多态性表示能够采取多种形式。因此如果父类具有名为ABC的方法，则子类也可以具有具有相同名称ABC的方法，该方法具有其自己的参数和变量。Python允许多态。</span><br></pre></td></tr></table></figure>
+<p>比较Django与Flask？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Django和Flask将Web浏览器中键入的URL或地址映射到Python中的函数。</span><br><span class="line"></span><br><span class="line">与Django相比，Flask要简单得多，但Flask并没有为你做很多事情意味着你需要指定细节，而Django为你做了很多事情，你不需要做太多工作。Django由预编写的代码组成，用户需要分析这些代码，而Flask则允许用户创建自己的代码，因此，使代码更容易理解。从技术上讲，两者都同样好，都有自己的优点和缺点。</span><br></pre></td></tr></table></figure>
+
+<p>列出Django中的继承样式。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">在Django中，有三种继承模式：</span><br><span class="line"></span><br><span class="line">抽象基类：当只希望父类包含您不想为每个子模型键入的信息时，使用此样式。</span><br><span class="line">多表继承：使用此样式如果要对现有模型进行子类化，那么需要每个模型都有自己的数据库表。</span><br><span class="line">代理模式：如果只想修改模型的Python级别行为，而无需更改模型的字段。则可以使用此模式。</span><br></pre></td></tr></table></figure>
+
+<p>为什么不鼓励以下划线开头的局部变量名？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">由于Python没有私有变量的概念，因此前导下划线用于表示不能从类外部访问的变量。</span><br></pre></td></tr></table></figure>
+
+<p>标识符的最大可能长度是多少？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">标识符可以是任意长度。</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://wanghuaren.github.io/2024/03/19/page34/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://wanghuaren.github.io/2024/03/19/page34/&text=python面试题整理"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://wanghuaren.github.io/2024/03/19/page34/&title=python面试题整理"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://wanghuaren.github.io/2024/03/19/page34/&is_video=false&description=python面试题整理"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=python面试题整理&body=Check out this article: https://wanghuaren.github.io/2024/03/19/page34/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://wanghuaren.github.io/2024/03/19/page34/&title=python面试题整理"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://wanghuaren.github.io/2024/03/19/page34/&title=python面试题整理"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://wanghuaren.github.io/2024/03/19/page34/&title=python面试题整理"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://wanghuaren.github.io/2024/03/19/page34/&title=python面试题整理"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://wanghuaren.github.io/2024/03/19/page34/&name=python面试题整理&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://wanghuaren.github.io/2024/03/19/page34/&t=python面试题整理"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2024
+    wnghuaren
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

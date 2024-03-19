@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="slice 赋值比 append 性能优：在使用 slice 时，如果知道切片的容量与大小，可以进行赋值操作，相比 append 减少返回新的切片 123456789101112131415161718192021222324252627282930313233func BenchmarkForA(b *testing.B) &#123;	list :&#x3D; make([]*int, 0)	for i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="golang 性能调优心得(待补充)">
+<meta property="og:url" content="https://wanghuaren.github.io/2024/03/19/page28/index.html">
+<meta property="og:site_name" content="on my way">
+<meta property="og:description" content="slice 赋值比 append 性能优：在使用 slice 时，如果知道切片的容量与大小，可以进行赋值操作，相比 append 减少返回新的切片 123456789101112131415161718192021222324252627282930313233func BenchmarkForA(b *testing.B) &#123;	list :&#x3D; make([]*int, 0)	for i">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-03-19T01:45:07.503Z">
+<meta property="article:modified_time" content="2024-03-19T02:45:51.858Z">
+<meta property="article:author" content="wnghuaren">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>golang 性能调优心得(待补充)</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2024/03/19/page35/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2024/01/08/page33/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://wanghuaren.github.io/2024/03/19/page28/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://wanghuaren.github.io/2024/03/19/page28/&text=golang 性能调优心得(待补充)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://wanghuaren.github.io/2024/03/19/page28/&title=golang 性能调优心得(待补充)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://wanghuaren.github.io/2024/03/19/page28/&is_video=false&description=golang 性能调优心得(待补充)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=golang 性能调优心得(待补充)&body=Check out this article: https://wanghuaren.github.io/2024/03/19/page28/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://wanghuaren.github.io/2024/03/19/page28/&title=golang 性能调优心得(待补充)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://wanghuaren.github.io/2024/03/19/page28/&title=golang 性能调优心得(待补充)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://wanghuaren.github.io/2024/03/19/page28/&title=golang 性能调优心得(待补充)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://wanghuaren.github.io/2024/03/19/page28/&title=golang 性能调优心得(待补充)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://wanghuaren.github.io/2024/03/19/page28/&name=golang 性能调优心得(待补充)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://wanghuaren.github.io/2024/03/19/page28/&t=golang 性能调优心得(待补充)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#slice-%E8%B5%8B%E5%80%BC%E6%AF%94-append-%E6%80%A7%E8%83%BD%E4%BC%98%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">slice 赋值比 append 性能优：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GC-%E4%BC%98%E5%8C%96"><span class="toc-number">2.</span> <span class="toc-text">GC 优化</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        golang 性能调优心得(待补充)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">wnghuaren</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-03-19T01:45:07.503Z" class="dt-published" itemprop="datePublished">2024-03-19</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="slice-赋值比-append-性能优："><a href="#slice-赋值比-append-性能优：" class="headerlink" title="slice 赋值比 append 性能优："></a>slice 赋值比 append 性能优：</h1><p>在使用 slice 时，如果知道切片的容量与大小，可以进行赋值操作，相比 append 减少返回新的切片</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">func BenchmarkForA(b *testing.B) &#123;</span><br><span class="line">	list := make([]*int, 0)</span><br><span class="line">	for i := 0; i &lt; 100; i++ &#123;</span><br><span class="line">		a := i</span><br><span class="line">		list = append(list, &amp;a)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	b.ResetTimer()</span><br><span class="line">	for j := 0; j &lt; b.N; j++ &#123;</span><br><span class="line">		newList := make([]*int, 100, 100)</span><br><span class="line">		for i, v := range list &#123;</span><br><span class="line">			newList[i] = v</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	b.StopTimer()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func BenchmarkForB(b *testing.B) &#123;</span><br><span class="line">	list := make([]*int, 0)</span><br><span class="line">	for i := 0; i &lt; 100; i++ &#123;</span><br><span class="line">		a := i</span><br><span class="line">		list = append(list, &amp;a)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	b.ResetTimer()</span><br><span class="line">	for j := 0; j &lt; b.N; j++ &#123;</span><br><span class="line">		newList := make([]*int, 0, 100)</span><br><span class="line">		for _, v := range list &#123;</span><br><span class="line">			newList = append(newList, v)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	b.StopTimer()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同样是给一个切片添加元素，赋值操作性能提升 35%</p>
+<p>一些提升go性能的小技巧数据图表-heapdump性能社区</p>
+<p>再看一下 append 的源码，返回的是一个新的切片：</p>
+<p>一些提升go性能的小技巧数据图表-heapdump性能社区</p>
+<p>给 slice 扩容</p>
+<p>当如果两个 slice 合并时，可以用 copy 减少内存分配，提高性能</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">func BenchmarkAppendA(b *testing.B) &#123;</span><br><span class="line">	list := make([]*int, 0)</span><br><span class="line">	for i := 0; i &lt; 100; i++ &#123;</span><br><span class="line">		a := i</span><br><span class="line">		list = append(list, &amp;a)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	b.ResetTimer()</span><br><span class="line">	for j := 0; j &lt; b.N; j++ &#123;</span><br><span class="line">		existList := make([]*int, 0)</span><br><span class="line">		for i := 1; i &lt;= 5; i++ &#123;</span><br><span class="line">			a := i + 100</span><br><span class="line">			existList = append(existList, &amp;a)</span><br><span class="line">		&#125;</span><br><span class="line">		for _, v := range list &#123;</span><br><span class="line">			existList = append(existList, v)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	b.StopTimer()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func BenchmarkAppendB(b *testing.B) &#123;</span><br><span class="line">	list := make([]*int, 0)</span><br><span class="line">	for i := 0; i &lt; 100; i++ &#123;</span><br><span class="line">		a := i</span><br><span class="line">		list = append(list, &amp;a)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	b.ResetTimer()</span><br><span class="line">	for j := 0; j &lt; b.N; j++ &#123;</span><br><span class="line">		existList := make([]*int, 0)</span><br><span class="line">		for i := 1; i &lt;= 5; i++ &#123;</span><br><span class="line">			a := i + 100</span><br><span class="line">			existList = append(existList, &amp;a)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		newList := make([]*int, 105)</span><br><span class="line">		copy(newList, existList)</span><br><span class="line">		copyList := make([]*int, 0, 100)</span><br><span class="line">		for _, v := range list &#123;</span><br><span class="line">			copyList = append(copyList, v)</span><br><span class="line">		&#125;</span><br><span class="line">		copy(newList[len(existList):], copyList)</span><br><span class="line">		existList = newList</span><br><span class="line">	&#125;</span><br><span class="line">	b.StopTimer()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>要给一个切片扩容，但很多同学都就会用 append，其实用 copy 性能可提升 50%:</p>
+<p>byte to string<br>很多时候我们都需要网络服务加载一些内容，返回结果都是 byte 类型，经常会把 byte 转换 string，但是 string 操作会增加一次 copy 操作，因此我们可以通过 unsafe.pointer 进行转换</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">func unsafeToString(bytes []byte) *string &#123;</span><br><span class="line">	hdr := &amp;reflect.StringHeader&#123;</span><br><span class="line">		Data: uintptr(unsafe.Pointer(&amp;bytes[0])),</span><br><span class="line">		Len:  len(bytes),</span><br><span class="line">	&#125;</span><br><span class="line">	return (*string)(unsafe.Pointer(hdr))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func BenchmarkByteToStringA(b *testing.B) &#123;</span><br><span class="line">	b.ResetTimer()</span><br><span class="line">	for j := 0; j &lt; b.N; j++ &#123;</span><br><span class="line">		aa := []byte(&quot;hello world&quot;)</span><br><span class="line">		str := unsafeToString(aa)</span><br><span class="line">		fmt.Sprintf(&quot;%v&quot;, *str)</span><br><span class="line">	&#125;</span><br><span class="line">	b.StopTimer()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func BenchmarkByteToStringB(b *testing.B) &#123;</span><br><span class="line">	b.ResetTimer()</span><br><span class="line">	for j := 0; j &lt; b.N; j++ &#123;</span><br><span class="line">		aa := []byte(&quot;hello world&quot;)</span><br><span class="line">		str := string(aa)</span><br><span class="line">		fmt.Sprintf(&quot;%v&quot;, str)</span><br><span class="line">	&#125;</span><br><span class="line">	b.StopTimer()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果 byte 的内容较大时，优化效果明显：</p>
+<p>但这里值得注意的是，string 类型是不可以修改的，而 byte 是可以修改的，所以这时对底层数组的值进行修改，将会造成严重的错误</p>
+<h1 id="GC-优化"><a href="#GC-优化" class="headerlink" title="GC 优化"></a>GC 优化</h1><p>在优化的过程中，看到好多 scanObject，findObject 占用 CPU，这是因为常驻于内存中结构体指针的数目太大了，所以减小垃圾回收压力的一个方法就是减少常驻于内存的结构体指针。</p>
+<p>然而优化前的程序 slice 元素几乎用的都是指针，指针又指向一个结构体，指针虽小但每次都增加堆的分配，再看看以下的例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">type AInt32 struct &#123;</span><br><span class="line">	TemplateType int32</span><br><span class="line">	DataStr      dataStr</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type dataStr struct &#123;</span><br><span class="line">	numStr string</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func BenchmarkSliceA(b *testing.B) &#123;</span><br><span class="line">	b.ResetTimer()</span><br><span class="line">	for i := 0; i &lt; b.N; i++ &#123;</span><br><span class="line">		list := make([]AInt32, 10000, 10000)</span><br><span class="line">		for j := 0; j &lt; 10000; j++ &#123;</span><br><span class="line">			a := AInt32&#123;</span><br><span class="line">				TemplateType: int32(j),</span><br><span class="line">				DataStr: dataStr&#123;</span><br><span class="line">					numStr: strconv.Itoa(i),</span><br><span class="line">				&#125;,</span><br><span class="line">			&#125;</span><br><span class="line">			list[j] = a</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	b.StopTimer()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func BenchmarkSliceB(b *testing.B) &#123;</span><br><span class="line">	b.ResetTimer()</span><br><span class="line">	for i := 0; i &lt; b.N; i++ &#123;</span><br><span class="line">		list := make([]*AInt32, 10000, 10000)</span><br><span class="line">		for j := 0; j &lt; 10000; j++ &#123;</span><br><span class="line">			a := AInt32&#123;</span><br><span class="line">				TemplateType: int32(j),</span><br><span class="line">				DataStr: dataStr&#123;</span><br><span class="line">					numStr: strconv.Itoa(i),</span><br><span class="line">				&#125;,</span><br><span class="line">			&#125;</span><br><span class="line">			list[j] = &amp;a</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	b.StopTimer()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<p>SliceA 明显优于 SliceB 的例子，这就是问题所在，产生的指针太多，导致 GC 不断的查询，添加标记 CPU 一直居高不下。</p>
+<p>注意，但这方法不是万能，如果结构过大，还是建议用指针，防止拷贝大内存。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#slice-%E8%B5%8B%E5%80%BC%E6%AF%94-append-%E6%80%A7%E8%83%BD%E4%BC%98%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">slice 赋值比 append 性能优：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GC-%E4%BC%98%E5%8C%96"><span class="toc-number">2.</span> <span class="toc-text">GC 优化</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://wanghuaren.github.io/2024/03/19/page28/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://wanghuaren.github.io/2024/03/19/page28/&text=golang 性能调优心得(待补充)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://wanghuaren.github.io/2024/03/19/page28/&title=golang 性能调优心得(待补充)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://wanghuaren.github.io/2024/03/19/page28/&is_video=false&description=golang 性能调优心得(待补充)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=golang 性能调优心得(待补充)&body=Check out this article: https://wanghuaren.github.io/2024/03/19/page28/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://wanghuaren.github.io/2024/03/19/page28/&title=golang 性能调优心得(待补充)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://wanghuaren.github.io/2024/03/19/page28/&title=golang 性能调优心得(待补充)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://wanghuaren.github.io/2024/03/19/page28/&title=golang 性能调优心得(待补充)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://wanghuaren.github.io/2024/03/19/page28/&title=golang 性能调优心得(待补充)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://wanghuaren.github.io/2024/03/19/page28/&name=golang 性能调优心得(待补充)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://wanghuaren.github.io/2024/03/19/page28/&t=golang 性能调优心得(待补充)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2024
+    wnghuaren
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

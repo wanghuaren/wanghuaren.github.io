@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Cocos2d-x-3.6 Cocos Code IDE V1.2.0 目的：朋友曾给过我建议，C++层与LUA层通过JSON进行数据传输，想实现一下这个功能。 背景：已经学过两周的cocos2dx啦，但仅仅止步于C++代码，虽然还涉及了一些JAVA代码，关于这个大家可以看我早些的博客。 需求：至少要建立一个LUA的项目，这里我们就对此展开讨论 实现： 首先最简单的方法是通过命令的方式创建项目co">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试">
+<meta property="og:url" content="https://wanghuaren.github.io/2015/08/11/page14/index.html">
+<meta property="og:site_name" content="on my way">
+<meta property="og:description" content="Cocos2d-x-3.6 Cocos Code IDE V1.2.0 目的：朋友曾给过我建议，C++层与LUA层通过JSON进行数据传输，想实现一下这个功能。 背景：已经学过两周的cocos2dx啦，但仅仅止步于C++代码，虽然还涉及了一些JAVA代码，关于这个大家可以看我早些的博客。 需求：至少要建立一个LUA的项目，这里我们就对此展开讨论 实现： 首先最简单的方法是通过命令的方式创建项目co">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-08-11T04:43:22.000Z">
+<meta property="article:modified_time" content="2024-01-08T07:30:25.742Z">
+<meta property="article:author" content="wnghuaren">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2016/01/20/page10/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2015/08/01/page13/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://wanghuaren.github.io/2015/08/11/page14/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://wanghuaren.github.io/2015/08/11/page14/&text=使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://wanghuaren.github.io/2015/08/11/page14/&title=使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://wanghuaren.github.io/2015/08/11/page14/&is_video=false&description=使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试&body=Check out this article: https://wanghuaren.github.io/2015/08/11/page14/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://wanghuaren.github.io/2015/08/11/page14/&title=使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://wanghuaren.github.io/2015/08/11/page14/&title=使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://wanghuaren.github.io/2015/08/11/page14/&title=使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://wanghuaren.github.io/2015/08/11/page14/&title=使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://wanghuaren.github.io/2015/08/11/page14/&name=使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://wanghuaren.github.io/2015/08/11/page14/&t=使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">wnghuaren</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2015-08-11T04:43:22.000Z" class="dt-published" itemprop="datePublished">2015-08-11</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>Cocos2d-x-3.6</p>
+<p>Cocos Code IDE V1.2.0</p>
+<p>目的：朋友曾给过我建议，C++层与LUA层通过JSON进行数据传输，想实现一下这个功能。</p>
+<p>背景：已经学过两周的cocos2dx啦，但仅仅止步于C++代码，虽然还涉及了一些JAVA代码，关于这个大家可以看我早些的博客。</p>
+<p>需求：至少要建立一个LUA的项目，这里我们就对此展开讨论</p>
+<p>实现：</p>
+<p>首先最简单的方法是通过命令的方式创建项目cocos new xhome -p org.cocos2dx.xhome -l lua -d xxx，如此以来，Visual Studio打开项目生成，就可以生成可执行程序，当然也可以调试C++层代码，也仅仅是C++层代码。这么一来就满足不了我的需求了，若是我想实现我的功能必然要编写LUA逻辑，能调试LUA代码将对开发的效率有着至关重要的影响。走到这里只能放弃这个方法。</p>
+<p>若想调试LUA代码，使用Cocos Code IDE当然应该是再合适不过了，这样我就去官网下载了最新版本Cocos Code IDE 2.0.0-beta，然而安装，创建项目，一切都太顺利了（中间可能要配置一下Engine Mode，配置这里的时候好像没有出错）但是最后再去Make（这里应该是编译吧，第一次用不懂的太多），就报了一个我一直也没有解决的问题，记不太清了，Lua SDK，要指定路径的意思，那个页面有kahlua和luaj两个选项，应该选一个，指定路径就能进行后续的编译等等操作吧。遗憾的是我一直没有找到解决方案。最后在官网上又看到了目前关于新版支持Lua并不是很好，而且有很多功能还处于未完成状态，对于一个仅仅是只想用一次的人来说，学习它实在划不来，算是给自己一个轻言放弃的理由吧。</p>
+<p>这时我就把目光集中在Cocos Code IDE早期的稳定版本。其实官网都说1.2版本和2.0版本其实是两个东西，用的底层框架都不一样，一个是Eclipse，新版是intellij。于是这时我就卸载了新版安装了Cocos Code IDE v1.2.0版本。接下来我就慢慢说我遇到的各种问题。</p>
+<p>首先当这个版本选择Engine Mode的时候，总是报Lua：不能找到D:\cocos2d-x-3.6\templates\lua-template-runtime\runtime\android&#x2F;PrebuiltRuntimeLua.apk，请确保引擎是完整的并重试一次，不难理解程序检测到我指定的cocos2dx目录缺少关键性文件，就报错了。这个错误直接影响不能创建Lua项目，这个不是重点，但是依然有解决办法，就是下载一下cocos2d-x-3.4，把3.4版本的lua-template-runtime拷贝到3.6版本，3.6版本的重命名一下，不要删除了，下面还要用到呢。这样就能创建Lua项目了，关于lua-template-runtime和lua-template-default这两个模板的区别，网上也有很多朋友提到，lua-template-runtime就是专门给Cocos Code IDE使用的，而lua-template-default应该就是cocos命令行创建项目默认使用的模板。</p>
+<p>然后直接创建的项目，debug会报错，这个错不重要，很有可能是3.4版本创建出来示例代码，已经不能在3.6版本中运行</p>
+<p>然后就研究了一下cocos命令，发现可以这样创建项目，cocos new xhome -p org.cocos2dx.xhome -l lua -t runtime -d xxx，当然这是恢复3.6自己的lua-template-runtime创建的项目，如此以来我就可以好好看看3.6版本创建的专门针对Cocos Code IDE的项目到底长什么样子，创建成功后导入进Cocos Code IDE，发现还是不能运行，缺文件：runtime&#x2F;win32&#x2F;PrebuiltRuntimeLua.exe，这个文件原本就应该在lua-template-runtime里面包含的，可是不知道为什么3.6版本不再有这个文件夹了，也没有找到那篇文章特意提到这个问题。这个时候我尝试性的用Visual Studio打开项目，编译一下，发现在runtime文件夹中出现了exe的可执行文件，在运行-配置 模拟器路径那里指定一下，就可以成功运行了。建议最好在调试-配置里面进行指定，因为中间有一插曲，就是一调试就停在Play那个蓝色的界面，说什么连接不上超时之类了。这个问题也是困扰了我一段时间，在我将要放弃的时候，它又可以了，曾经我一度揣测，原因应该是这样的，VS编译出来的就是可执行文件，Cocos Code IDE指定以后，直接运行肯定是没有问题，但是调试我想应该是有一个外壳程序加载生成的可执行程序的吧，VS生成的时候也肯定不知道Cocos Code IDE调试的套路，所以一调试就死在那里。但是既然好了那就这样吧。</p>
+<p>这样我就可以开始编写我的逻辑了，纵然最后我放弃了这个解决方案，选择了让Lua直接支持Protobuf来进行数据的解析。相比之下，我若用Json再传一次，不仅C++层和Lua层都需要支持解析Json格式数据，而且C++层需要为每个协议增加不同的处理逻辑，这样在协议发生改变或是增加新的消息协议都将需要重新编译C++代码，这将是很难忍受的。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://wanghuaren.github.io/2015/08/11/page14/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://wanghuaren.github.io/2015/08/11/page14/&text=使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://wanghuaren.github.io/2015/08/11/page14/&title=使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://wanghuaren.github.io/2015/08/11/page14/&is_video=false&description=使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试&body=Check out this article: https://wanghuaren.github.io/2015/08/11/page14/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://wanghuaren.github.io/2015/08/11/page14/&title=使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://wanghuaren.github.io/2015/08/11/page14/&title=使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://wanghuaren.github.io/2015/08/11/page14/&title=使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://wanghuaren.github.io/2015/08/11/page14/&title=使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://wanghuaren.github.io/2015/08/11/page14/&name=使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://wanghuaren.github.io/2015/08/11/page14/&t=使用Cocos2d-x-3.6创建Lua项目Cocos Code IDE V1.2可调试"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2024
+    wnghuaren
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Gateway 服务器仅暴露 Gateway 监听端口，Client 与 Server 之间通讯均通过 Gateway 转发Client 与 Gateway 仅建立一条连接，Gateway 可与多种 Server（Login、Game）建立连接，初步设想同一时间仅保留一条连接，内网连接的切换代价不高，当然同时保留多条连接也行Gateway 应具备以下功能：加密与解密、压缩与解压，我个人认为没有太">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中小型棋牌类网络游戏服务端架构">
+<meta property="og:url" content="https://wanghuaren.github.io/2017/06/24/page18/index.html">
+<meta property="og:site_name" content="on my way">
+<meta property="og:description" content="Gateway 服务器仅暴露 Gateway 监听端口，Client 与 Server 之间通讯均通过 Gateway 转发Client 与 Gateway 仅建立一条连接，Gateway 可与多种 Server（Login、Game）建立连接，初步设想同一时间仅保留一条连接，内网连接的切换代价不高，当然同时保留多条连接也行Gateway 应具备以下功能：加密与解密、压缩与解压，我个人认为没有太">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wanghuaren.github.io/2017/06/24/page18/066_1.png">
+<meta property="article:published_time" content="2017-06-24T10:14:08.000Z">
+<meta property="article:modified_time" content="2024-01-08T08:00:21.325Z">
+<meta property="article:author" content="wnghuaren">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wanghuaren.github.io/2017/06/24/page18/066_1.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>中小型棋牌类网络游戏服务端架构</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2017/12/09/page20/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2017/05/11/page17/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://wanghuaren.github.io/2017/06/24/page18/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://wanghuaren.github.io/2017/06/24/page18/&text=中小型棋牌类网络游戏服务端架构"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://wanghuaren.github.io/2017/06/24/page18/&title=中小型棋牌类网络游戏服务端架构"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://wanghuaren.github.io/2017/06/24/page18/&is_video=false&description=中小型棋牌类网络游戏服务端架构"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=中小型棋牌类网络游戏服务端架构&body=Check out this article: https://wanghuaren.github.io/2017/06/24/page18/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://wanghuaren.github.io/2017/06/24/page18/&title=中小型棋牌类网络游戏服务端架构"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://wanghuaren.github.io/2017/06/24/page18/&title=中小型棋牌类网络游戏服务端架构"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://wanghuaren.github.io/2017/06/24/page18/&title=中小型棋牌类网络游戏服务端架构"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://wanghuaren.github.io/2017/06/24/page18/&title=中小型棋牌类网络游戏服务端架构"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://wanghuaren.github.io/2017/06/24/page18/&name=中小型棋牌类网络游戏服务端架构&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://wanghuaren.github.io/2017/06/24/page18/&t=中小型棋牌类网络游戏服务端架构"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        中小型棋牌类网络游戏服务端架构
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">wnghuaren</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-06-24T10:14:08.000Z" class="dt-published" itemprop="datePublished">2017-06-24</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <img src="/2017/06/24/page18/066_1.png" class="">
+<p>Gateway</p>
+<p>服务器仅暴露 Gateway 监听端口，Client 与 Server 之间通讯均通过 Gateway 转发<br>Client 与 Gateway 仅建立一条连接，Gateway 可与多种 Server（Login、Game）建立连接，初步设想同一时间仅保留一条连接，内网连接的切换代价不高，当然同时保留多条连接也行<br>Gateway 应具备以下功能：加密与解密、压缩与解压，我个人认为没有太大必要让除 Gateway 之外的 Server 具备压缩与解压，逻辑简单就好<br>Manager</p>
+<p>所有的 Gateway、Server、DBProxy 均来这里注册注销用于 Client、Gateway、Server 发现可用的 Gateway、Server、DBProxy，来注册的服务，应即时报告当前处理数量，实现负载均衡；应具有状态（开放、关闭），实现伪热切换<br>提供管理接口：开关指定服务，消息广播（系统消息，全局消息），查找和通知玩家所在 GameServer 玩家充值事件等等<br>Login</p>
+<p>玩家注册，玩家鉴权登陆，和不需要缓存玩家信息的所有逻辑（玩家在大厅里的操作）<br>Game</p>
+<p>缓存玩家信息实现游戏相关逻辑<br>DBProxy</p>
+<p>数据缓存与持久化，监听并与 Login、Game 进行交互<br>Message</p>
+<p>消息头（长度32bit + 标识8bit + 主命令16bit + 子命令16bit） + 消息体<br>标识用来按位指定是否加密是否压缩<br>使用网络字节序即大端字节序<br>从主命令开始加密压缩<br>注：</p>
+<p>Manager 只会启动一个，剩余所有服务均可多开进而负载均衡<br>客户端发送心跳包，服务端接收心跳包，实现客户端保活<br>应该会为每个服务启用守护进程（supervisor）<br>这里并未独立出来日志服务器，先这样吧<br>有些架构中把登陆服务器放在第一位，它的登陆和我的登陆意义不同，它的登陆像是一个用户中心<br>客户端获取 Gateway 地址列表，要么自己实现 Http 服务，要么购买相关云服务，相较于 DNS 指向这些地址更加灵活<br>没有最好的架构，只有最适合的架构，随着架构承载不起当前人数，我认为我会高兴的加班调整已不那么适合的架构，其实本架构我设想的是应对中小型棋牌游戏项目<br>思考的时候有很多想要额外说明的，成文时却东忘西忘，想到时再来补充吧</p>
+<p>2017.4.15 关于 Login 想再多说些，它所实现的功能不能仅通过它的名称来感觉，若把 Login 再拆成 Login、Lobby 也不为过，但是会让架构稍微复杂些，若非要去掉 Login 把所有逻辑揉进 Game 也并非不可实现，我这里所想的也只是满足中小型这个期望作折衷而已，如何来判定指定逻辑是否应该写入 Login 服务器，我举例来说明我的想法，譬如注册、登陆、签到、排行榜等等，这些逻辑可以通过 Login 与 DBProxy 直接交互返回结果，它们就应该写入 Login 服务器</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://wanghuaren.github.io/2017/06/24/page18/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://wanghuaren.github.io/2017/06/24/page18/&text=中小型棋牌类网络游戏服务端架构"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://wanghuaren.github.io/2017/06/24/page18/&title=中小型棋牌类网络游戏服务端架构"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://wanghuaren.github.io/2017/06/24/page18/&is_video=false&description=中小型棋牌类网络游戏服务端架构"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=中小型棋牌类网络游戏服务端架构&body=Check out this article: https://wanghuaren.github.io/2017/06/24/page18/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://wanghuaren.github.io/2017/06/24/page18/&title=中小型棋牌类网络游戏服务端架构"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://wanghuaren.github.io/2017/06/24/page18/&title=中小型棋牌类网络游戏服务端架构"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://wanghuaren.github.io/2017/06/24/page18/&title=中小型棋牌类网络游戏服务端架构"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://wanghuaren.github.io/2017/06/24/page18/&title=中小型棋牌类网络游戏服务端架构"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://wanghuaren.github.io/2017/06/24/page18/&name=中小型棋牌类网络游戏服务端架构&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://wanghuaren.github.io/2017/06/24/page18/&t=中小型棋牌类网络游戏服务端架构"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2024
+    wnghuaren
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

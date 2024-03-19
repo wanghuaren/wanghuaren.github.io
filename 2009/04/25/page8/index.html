@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="不断改进中，感觉比无惧好用&lt;%class WHRIrishCoffee  private physicalPath,adodbStream,fileCount,dicValue,fileName  private sub Class_Initialize   fileName&#x3D;””   fileCount&#x3D;1   set dicValue&#x3D;server.Crea">
+<meta property="og:type" content="article">
+<meta property="og:title" content="asp upload">
+<meta property="og:url" content="https://wanghuaren.github.io/2009/04/25/page8/index.html">
+<meta property="og:site_name" content="on my way">
+<meta property="og:description" content="不断改进中，感觉比无惧好用&lt;%class WHRIrishCoffee  private physicalPath,adodbStream,fileCount,dicValue,fileName  private sub Class_Initialize   fileName&#x3D;””   fileCount&#x3D;1   set dicValue&#x3D;server.Crea">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2009-04-25T02:41:18.000Z">
+<meta property="article:modified_time" content="2024-01-08T07:13:19.966Z">
+<meta property="article:author" content="wnghuaren">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>asp upload</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2013/04/11/page11/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2008/06/03/page7/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://wanghuaren.github.io/2009/04/25/page8/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://wanghuaren.github.io/2009/04/25/page8/&text=asp upload"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://wanghuaren.github.io/2009/04/25/page8/&title=asp upload"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://wanghuaren.github.io/2009/04/25/page8/&is_video=false&description=asp upload"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=asp upload&body=Check out this article: https://wanghuaren.github.io/2009/04/25/page8/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://wanghuaren.github.io/2009/04/25/page8/&title=asp upload"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://wanghuaren.github.io/2009/04/25/page8/&title=asp upload"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://wanghuaren.github.io/2009/04/25/page8/&title=asp upload"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://wanghuaren.github.io/2009/04/25/page8/&title=asp upload"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://wanghuaren.github.io/2009/04/25/page8/&name=asp upload&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://wanghuaren.github.io/2009/04/25/page8/&t=asp upload"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        asp upload
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">wnghuaren</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2009-04-25T02:41:18.000Z" class="dt-published" itemprop="datePublished">2009-04-25</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>不断改进中，感觉比无惧好用<br>&lt;%<br>class WHRIrishCoffee<br>  private physicalPath,adodbStream,fileCount,dicValue,fileName<br>  private sub Class_Initialize<br>   fileName&#x3D;””<br>   fileCount&#x3D;1<br>   set dicValue&#x3D;server.CreateObject(“scripting.dictionary”)<br>   set adodbStream&#x3D;server.createObject(“adodb.Stream”)<br>   adodbStream.mode&#x3D;3<br>   adodbStream.type&#x3D;1<br>   adodbStream.open<br>  end sub<br>  private sub Class_Terminate<br>   adodbStream&#x3D;close<br>   set dicValue&#x3D;nothing<br>   set adodbStream&#x3D;nothing<br>  end sub</p>
+<p>  public function upload()<br>   dim dic<br>   if fileName&#x3D;”” then<br>    fileName&#x3D;year(now())&amp;month(now())&amp;day(now())&amp;hour(now())&amp;minute(now())&amp;second(now())<br>   end if<br>   fileCount&#x3D;getFileCount(adodbStream)<br>   temp&#x3D;uploadFile(adodbStream,physicalPath,fileName,fileCount)<br>   for i&#x3D;0 to ubound(temp)-1<br>    if temp(i)(0)&lt;&gt;”null” then<br>     dicValue.add temp(i)(0),temp(i)(1)<br>    end if<br>   next<br>   temp&#x3D;getTxtValue(adodbStream)<br>   for i&#x3D;0 to ubound(temp)-1<br>    if temp(i)(0)&lt;&gt;”null” then<br>     dicValue.add temp(i)(1),replace(replace(temp(i)(2),chr(10),””),chr(13),””)<br>    end if<br>   next<br>  end function</p>
+<p>  public property let setRequest(byval vRequest)<br>   adodbStream.write vRequest.binaryRead(vRequest.totalBytes)<br>   ‘adodbStream.savetofile “c:&#x2F;t.txt”,2<br>  end property</p>
+<p>  public property let setPhysicalPath(byval p)<br>   physicalPath&#x3D;p<br>  end property</p>
+<p>  public property let setFileName(byval vName)<br>   fileName&#x3D;vName<br>  end property</p>
+<p>  public property get getFormValues<br>   set getFormValues&#x3D;dicValue<br>  end property</p>
+<p>  private function getTxtValue(asm)<br>   dim adodbStream1,strStream,arrData(),arrTemp<br>   set adodbStream1&#x3D;server.CreateObject(“adodb.stream”)<br>   with adodbStream1<br>    .mode&#x3D;3<br>    .type&#x3D;1<br>    .open<br>    asm.position&#x3D;0<br>    asm.copyTo adodbStream1<br>    .position&#x3D;0<br>    .type&#x3D;2<br>    .charset&#x3D;”gb2312”<br>    strStream&#x3D;.readText()<br>    strStream&#x3D;split(strStream,”—————————–”)<br>    redim arrData(ubound(strStream))<br>    for i&#x3D;0 to ubound(strStream)-1<br>     if instr(strStream(i),”Content-Type:”)&#x3D;0 and strStream(i)&lt;&gt;”” then<br>      arrData(i)&#x3D;split(strStream(i),””””)<br>     else<br>      arrData(i)&#x3D;array(“null”)<br>     end if<br>    next<br>    .close<br>   end with<br>   set adodbStream1&#x3D;nothing<br>   getTxtValue&#x3D;arrData<br>  end function</p>
+<p>  private function getFileCount(asm)<br>   asm.position&#x3D;0<br>   dim adbstm,strTemp<br>   set adbstm&#x3D;server.createObject(“adodb.Stream”)<br>   with adbstm<br>    .mode&#x3D;3<br>    .type&#x3D;1<br>    .open<br>    asm.position&#x3D;0<br>    asm.copyTo adbstm<br>    .position&#x3D;0<br>    .type&#x3D;2<br>    .charset&#x3D;”gb2312”<br>    strTemp&#x3D;.readText()<br>    .close<br>   end with<br>   set adbstm&#x3D;nothing<br>   getFileCount&#x3D;ubound(split(strTemp,”Content-Type:”))<br>  end function</p>
+<p>  private function additFileName(asm,fileNum)<br>   dim adbstm,strTemp,pointPosi,instrp,fileInfo(2),fiStr,fiStrSize,fileSign<br>   beginPosi&#x3D;0<br>   set adbstm&#x3D;server.createObject(“adodb.Stream”)<br>   with adbstm<br>    .mode&#x3D;3<br>    .type&#x3D;1<br>    .open<br>    asm.position&#x3D;0<br>    asm.copyTo adbstm<br>    .position&#x3D;0<br>    .type&#x3D;2<br>    .charset&#x3D;”gb2312”<br>    strTemp&#x3D;.readText()<br>    fileCount&#x3D;ubound(split(strTemp,”Content-Type:”))<br>    pointPosi&#x3D;instr(strTemp,”.”)<br>    if pointPosi&#x3D;0 then<br>     fileInfo(0)&#x3D;”null”<br>     fileInfo(1)&#x3D;”null”<br>    else<br>     for i&#x3D;1 to fileNum<br>      fiStr&#x3D;mid(strTemp,1,instr(strTemp,”; filename&#x3D;”)-1)<br>      strTemp&#x3D;mid(strTemp,instr(strTemp,”; filename&#x3D;”)+12)</p>
+<pre><code> next
+ while instr(fileSign,&quot;&quot;&quot;&quot;)=0
+  fiStrSize=len(fiStr)
+  fileSign=mid(fiStr,fiStrSize-1,1)&amp;fileSign
+  fiStr=mid(fiStr,1,fiStrSize-1)
+ wend
+ fileSign=mid(fileSign,2)
+ fileInfo(0)=fileSign
+ instrp=instr(strTemp,&quot;.&quot;)
+ strTemp=mid(strTemp,instrp,instr(strTemp,&quot;&quot;&quot;&quot;)-instrp)
+ fileInfo(1)=strTemp
+end if
+.close
+</code></pre>
+<p>   end with<br>   set adbstm&#x3D;nothing<br>   additFileName&#x3D;fileInfo<br>  end function</p>
+<p>  private function uploadFile(asm,filePath,fName,fCount)<br>   asm.position&#x3D;0<br>   dim adoStream1,adoStream2,position,arrFileName(),arrTemp,fileFullName<br>   redim arrFileName(fCount)<br>   for i&#x3D;1 to fileCount<br>    position&#x3D;getPos(asm,chr(10)&amp;chr(13)&amp;chr(10),chr(13)&amp;chr(10)&amp;”—“,i,”Content-Type:”)<br>    if position(1)-position(0)&gt;10 then<br>     arrTemp&#x3D;additFileName(asm,i)<br>     fileFullName&#x3D;fName&amp;”_”&amp;i&amp;arrTemp(1)<br>     set adoStream1&#x3D;server.createObject(“adodb.Stream”)<br>     set adoStream2&#x3D;server.createObject(“adodb.Stream”)<br>     with adoStream1<br>      .mode&#x3D;3<br>      .type&#x3D;1<br>      .open<br>      asm.position&#x3D;0<br>      asm.copyTo adoStream1<br>      .position&#x3D;position(0)<br>       with adoStream2<br>        .mode&#x3D;3<br>        .type&#x3D;1<br>        .open<br>        .write adoStream1.read(position(1)-position(0))<br>        .saveToFile filePath&amp;fileFullName,2<br>        .close<br>       end with<br>       set adoStream2&#x3D;nothing<br>      .close<br>     end with<br>     set adoStream1&#x3D;nothing<br>     arrTemp(1)&#x3D;fileFullName<br>    else<br>     arrTemp&#x3D;array(“null”)<br>    end if<br>    arrFileName(i-1)&#x3D;arrTemp<br>   next<br>   uploadfile&#x3D;arrFileName<br>  end function</p>
+<p>  private function getPos(asm,startStr,endStr,compaerNum,keyStr)<br>   dim adoStream1,adoStream2,posi,blmFind1,blmFind2,blmFind3,strLength,p(2),strTemp,findCount<br>   findCount&#x3D;1<br>   posi&#x3D;1<br>   blmFind1&#x3D;true<br>   blmFind2&#x3D;true<br>   blmFind3&#x3D;true<br>   strLength&#x3D;13<br>   while blmFind1 or blmFind2<br>    set adoStream1&#x3D;server.createObject(“adodb.Stream”)<br>    with adoStream1<br>     .mode&#x3D;3<br>     .type&#x3D;1<br>     .open<br>     asm.position&#x3D;0<br>     asm.copyTo adoStream1<br>     .position&#x3D;posi<br>      set adoStream2&#x3D;server.createObject(“adodb.Stream”)<br>      with adoStream2<br>       .mode&#x3D;3<br>       .type&#x3D;2<br>       .open<br>       .writeText adoStream1.read(strLength)<br>       .position&#x3D;0<br>       .charset&#x3D;”gb2312”<br>       .position&#x3D;2<br>       strTemp&#x3D;.readText()<br>       if blmFind3 then<br>        if instr(strTemp,keyStr)&#x3D;1 then<br>         if findCount&#x3D;compaerNum then<br>          blmFind3&#x3D;false<br>          strLength&#x3D;len(startStr)<br>         end if<br>         findCount&#x3D;findCount+1<br>        end if<br>       elseif instr(strTemp,startStr)&#x3D;1 and blmFind1 then<br>        p(0)&#x3D;posi+strLength<br>        blmFind1&#x3D;false<br>        strLength&#x3D;len(endStr)<br>       elseif instr(strTemp,endStr)&#x3D;1 then<br>        p(1)&#x3D;posi<br>        blmFind2&#x3D;false<br>       end if<br>       .close<br>      end with<br>      set adoStream2&#x3D;nothing<br>     .close<br>    end with<br>    set adoStream1&#x3D;nothing<br>    posi&#x3D;posi+1<br>   wend<br>   getPos&#x3D;p<br>  end function<br>end class<br>%&gt;</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://wanghuaren.github.io/2009/04/25/page8/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://wanghuaren.github.io/2009/04/25/page8/&text=asp upload"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://wanghuaren.github.io/2009/04/25/page8/&title=asp upload"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://wanghuaren.github.io/2009/04/25/page8/&is_video=false&description=asp upload"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=asp upload&body=Check out this article: https://wanghuaren.github.io/2009/04/25/page8/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://wanghuaren.github.io/2009/04/25/page8/&title=asp upload"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://wanghuaren.github.io/2009/04/25/page8/&title=asp upload"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://wanghuaren.github.io/2009/04/25/page8/&title=asp upload"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://wanghuaren.github.io/2009/04/25/page8/&title=asp upload"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://wanghuaren.github.io/2009/04/25/page8/&name=asp upload&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://wanghuaren.github.io/2009/04/25/page8/&t=asp upload"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2024
+    wnghuaren
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

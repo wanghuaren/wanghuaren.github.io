@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="ES生成token 和证书curl -X POST -u elastic:_U7w9XwLA+DG1Sk*D5 “https:&#x2F;&#x2F;128.199.147.142:9200&#x2F;_security&#x2F;service&#x2F;elastic&#x2F;kibana&#x2F;credential&#x2F;token&#x2F;token1?pretty“ –cacert &#x2F;root&#x2F;Desktop&#x2F;http_ca.crt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql-es问题解决（密码）">
+<meta property="og:url" content="https://wanghuaren.github.io/2024/03/19/page36/index.html">
+<meta property="og:site_name" content="on my way">
+<meta property="og:description" content="ES生成token 和证书curl -X POST -u elastic:_U7w9XwLA+DG1Sk*D5 “https:&#x2F;&#x2F;128.199.147.142:9200&#x2F;_security&#x2F;service&#x2F;elastic&#x2F;kibana&#x2F;credential&#x2F;token&#x2F;token1?pretty“ –cacert &#x2F;root&#x2F;Desktop&#x2F;http_ca.crt">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-03-19T07:13:52.000Z">
+<meta property="article:modified_time" content="2024-03-19T02:58:11.605Z">
+<meta property="article:author" content="wnghuaren">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>mysql-es问题解决（密码）</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2024/03/19/page34/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2024/03/19/page35/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://wanghuaren.github.io/2024/03/19/page36/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://wanghuaren.github.io/2024/03/19/page36/&text=mysql-es问题解决（密码）"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://wanghuaren.github.io/2024/03/19/page36/&title=mysql-es问题解决（密码）"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://wanghuaren.github.io/2024/03/19/page36/&is_video=false&description=mysql-es问题解决（密码）"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=mysql-es问题解决（密码）&body=Check out this article: https://wanghuaren.github.io/2024/03/19/page36/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://wanghuaren.github.io/2024/03/19/page36/&title=mysql-es问题解决（密码）"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://wanghuaren.github.io/2024/03/19/page36/&title=mysql-es问题解决（密码）"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://wanghuaren.github.io/2024/03/19/page36/&title=mysql-es问题解决（密码）"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://wanghuaren.github.io/2024/03/19/page36/&title=mysql-es问题解决（密码）"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://wanghuaren.github.io/2024/03/19/page36/&name=mysql-es问题解决（密码）&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://wanghuaren.github.io/2024/03/19/page36/&t=mysql-es问题解决（密码）"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ES%E7%94%9F%E6%88%90token-%E5%92%8C%E8%AF%81%E4%B9%A6"><span class="toc-number">1.</span> <span class="toc-text">ES生成token 和证书</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mysql%E5%AF%86%E7%A0%81%E8%A7%A3%E5%86%B3"><span class="toc-number">2.</span> <span class="toc-text">Mysql密码解决</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%90MySQL%E3%80%91MySQL%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81%E6%88%96%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">【MySQL】MySQL忘记密码或修改密码的方法</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        mysql-es问题解决（密码）
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">wnghuaren</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-03-19T07:13:52.000Z" class="dt-published" itemprop="datePublished">2024-03-19</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="ES生成token-和证书"><a href="#ES生成token-和证书" class="headerlink" title="ES生成token 和证书"></a>ES生成token 和证书</h1><p>curl -X POST -u elastic:_U7w<em>9Xw</em>LA+DG1Sk*D5 “<a target="_blank" rel="noopener" href="https://128.199.147.142:9200/_security/service/elastic/kibana/credential/token/token1?pretty">https://128.199.147.142:9200/_security/service/elastic/kibana/credential/token/token1?pretty</a>“ –cacert &#x2F;root&#x2F;Desktop&#x2F;http_ca.crt</p>
+<h1 id="Mysql密码解决"><a href="#Mysql密码解决" class="headerlink" title="Mysql密码解决"></a>Mysql密码解决</h1><h2 id="【MySQL】MySQL忘记密码或修改密码的方法"><a href="#【MySQL】MySQL忘记密码或修改密码的方法" class="headerlink" title="【MySQL】MySQL忘记密码或修改密码的方法"></a>【MySQL】MySQL忘记密码或修改密码的方法</h2><p>1.MySQL修改新密码方法</p>
+<pre><code>记得原密码情况下，修改新密码：
+登录到数据库后，输入 set password for 用户名@localhost = ‘新密码’; 来设置新的密码，别忘记分号哦。
+为本机localhost MySQL数据库系统中 root用户修改新密码为 admin
+修改root@localhost用户的密码为admin: set password for root@localhost = &#39;admin&#39;;
+</code></pre>
+<ol start="2">
+<li>MySQL忘记密码，重置密码方法<br>忘记登录密码情况下，通过以步骤行重置MySQL数据库系统的用户登录密码。</li>
+</ol>
+<p>1.使用管理员身份打开cmd，确保关闭mysql服务，cmd输入命令: net stop mysql</p>
+<p>ps:笔者安装的mysql版本是<br>在这里插入图片描述</p>
+<p>Server version: 8.0.12，而我MySQL服务名称 为 MySQL80，所以我使用 net stop mysql80命令关闭mysql服务</p>
+<p>在这里插入图片描述</p>
+<p>2.将目录从默认c盘位置切换到mysqld.exe的安装目录（如我的目录：D:\Program Files\MySQL\MySQL Server 5.7\bin）</p>
+<p>在这里插入图片描述</p>
+<p>则在cmd黑窗口输入如下命令，切换到mysqld.exe的安装目录</p>
+<p>（一般是 xxx\MySQL\MySQL Server 5.7\bin 目录下）</p>
+<p>在这里插入图片描述</p>
+<p>3.跳过密码验证</p>
+<p>由于 mysqld –skip-grant-tables 命令实测在mysql8.0.12版本中已失效。</p>
+<p>MySQL 8.0.x 版本推荐使用命令 mysqld –console –skip-grant-tables –shared-memory</p>
+<p>低版本MySQL数据库，使用mysqld –skip-grant-tables</p>
+<p>停止mysql服务后，输入mysqld –skip-grant-tables</p>
+<p>或者如下图命令：mysqld -nt –skip-grant-tables</p>
+<p>以上两条命令都可以：</p>
+<p>在这里插入图片描述<br>执行到这里就只会有光标在一闪一闪无法继续写命令或输入任何命令了，故重新再打开一个cmd窗口</p>
+<p>4.在新的cmd窗口中进行如下操作（这一步是否以管理员身份打开新cmd窗口都可以）</p>
+<p>切换到mysqld.exe的安装目录，以无账号密码方式登录MySQL，然后重置数据库系统 root用户的密码为admin</p>
+<p>flush privileges;</p>
+<p>set password for root@localhost&#x3D;’root2023’</p>
+<p>忘记密码情况下，重置密码完成！</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ES%E7%94%9F%E6%88%90token-%E5%92%8C%E8%AF%81%E4%B9%A6"><span class="toc-number">1.</span> <span class="toc-text">ES生成token 和证书</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mysql%E5%AF%86%E7%A0%81%E8%A7%A3%E5%86%B3"><span class="toc-number">2.</span> <span class="toc-text">Mysql密码解决</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%90MySQL%E3%80%91MySQL%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81%E6%88%96%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">【MySQL】MySQL忘记密码或修改密码的方法</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://wanghuaren.github.io/2024/03/19/page36/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://wanghuaren.github.io/2024/03/19/page36/&text=mysql-es问题解决（密码）"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://wanghuaren.github.io/2024/03/19/page36/&title=mysql-es问题解决（密码）"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://wanghuaren.github.io/2024/03/19/page36/&is_video=false&description=mysql-es问题解决（密码）"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=mysql-es问题解决（密码）&body=Check out this article: https://wanghuaren.github.io/2024/03/19/page36/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://wanghuaren.github.io/2024/03/19/page36/&title=mysql-es问题解决（密码）"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://wanghuaren.github.io/2024/03/19/page36/&title=mysql-es问题解决（密码）"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://wanghuaren.github.io/2024/03/19/page36/&title=mysql-es问题解决（密码）"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://wanghuaren.github.io/2024/03/19/page36/&title=mysql-es问题解决（密码）"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://wanghuaren.github.io/2024/03/19/page36/&name=mysql-es问题解决（密码）&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://wanghuaren.github.io/2024/03/19/page36/&t=mysql-es问题解决（密码）"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2024
+    wnghuaren
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="同事曾问我麻将判定输赢有没有什么高效的方法，他说他随手写的三个癞子的情况下判定要6秒多。我当时只想他是需要循环 34 * 34 * 34（共有 34 种麻将） 次并依次判定输赢，这肯定不是个好方法，后来才意识到不过 39304 次循环，不至于要这么长时间，问题应该是他判定麻将输赢的效率略低吧。关于如何优化并减少三个癞子的循环次数后文也有我的想法，反正我答应他尝试实现下，本文就是整理相关内容。 在我">
+<meta property="og:type" content="article">
+<meta property="og:title" content="带癞子麻将查表判断胡牌高效率低内存算法">
+<meta property="og:url" content="https://wanghuaren.github.io/2017/03/02/page19/index.html">
+<meta property="og:site_name" content="on my way">
+<meta property="og:description" content="同事曾问我麻将判定输赢有没有什么高效的方法，他说他随手写的三个癞子的情况下判定要6秒多。我当时只想他是需要循环 34 * 34 * 34（共有 34 种麻将） 次并依次判定输赢，这肯定不是个好方法，后来才意识到不过 39304 次循环，不至于要这么长时间，问题应该是他判定麻将输赢的效率略低吧。关于如何优化并减少三个癞子的循环次数后文也有我的想法，反正我答应他尝试实现下，本文就是整理相关内容。 在我">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-03-02T08:15:20.000Z">
+<meta property="article:modified_time" content="2024-01-08T08:04:23.464Z">
+<meta property="article:author" content="wnghuaren">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>带癞子麻将查表判断胡牌高效率低内存算法</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2017/03/19/page16/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2016/12/30/page15/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://wanghuaren.github.io/2017/03/02/page19/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://wanghuaren.github.io/2017/03/02/page19/&text=带癞子麻将查表判断胡牌高效率低内存算法"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://wanghuaren.github.io/2017/03/02/page19/&title=带癞子麻将查表判断胡牌高效率低内存算法"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://wanghuaren.github.io/2017/03/02/page19/&is_video=false&description=带癞子麻将查表判断胡牌高效率低内存算法"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=带癞子麻将查表判断胡牌高效率低内存算法&body=Check out this article: https://wanghuaren.github.io/2017/03/02/page19/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://wanghuaren.github.io/2017/03/02/page19/&title=带癞子麻将查表判断胡牌高效率低内存算法"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://wanghuaren.github.io/2017/03/02/page19/&title=带癞子麻将查表判断胡牌高效率低内存算法"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://wanghuaren.github.io/2017/03/02/page19/&title=带癞子麻将查表判断胡牌高效率低内存算法"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://wanghuaren.github.io/2017/03/02/page19/&title=带癞子麻将查表判断胡牌高效率低内存算法"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://wanghuaren.github.io/2017/03/02/page19/&name=带癞子麻将查表判断胡牌高效率低内存算法&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://wanghuaren.github.io/2017/03/02/page19/&t=带癞子麻将查表判断胡牌高效率低内存算法"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        带癞子麻将查表判断胡牌高效率低内存算法
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">wnghuaren</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-03-02T08:15:20.000Z" class="dt-published" itemprop="datePublished">2017-03-02</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>同事曾问我麻将判定输赢有没有什么高效的方法，他说他随手写的三个癞子的情况下判定要6秒多。我当时只想他是需要循环 34 * 34 * 34（共有 34 种麻将） 次并依次判定输赢，这肯定不是个好方法，后来才意识到不过 39304 次循环，不至于要这么长时间，问题应该是他判定麻将输赢的效率略低吧。关于如何优化并减少三个癞子的循环次数后文也有我的想法，反正我答应他尝试实现下，本文就是整理相关内容。</p>
+<p>在我未查阅相关资料时，最初我有两种想法（本文只深入讨论第二种想法）</p>
+<p>像我当初做斗地主智能出牌机器人拆解手牌那样，拆解手牌后判定是否符合条件进而判定输赢。<br>组合出所有赢的手牌，构造 map，判定输赢只需查表即可，键值初步设想的是排序并拼接成的 string。<br>查阅资料，知乎 Thinkraft 回答，对我影响很大，不知为何方法打心底佩服，但是效率并未得到显著提升（这里并非没有提升，可以参考后面测试数据，提升的效率应该源于数据条目的减少吧），可能是 Golang map 查找算法相当高效吧，即便如此采用这种方法可以有效的降低内存占用，详细请看我提供的源码。</p>
+<p>麻将共 34 种牌，Wiki-Mahjong 维基-麻将 1 - 9 饼，1 - 9 条，1 - 9 万，东，南，西，北，红中，发财，白板（剩余类型牌与本文算法无关，这里不予讨论）。</p>
+<pre><code>var tiles = []byte&#123;
+    0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, // Dots
+    0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, // Bamboo
+    0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, // Characters
+    0x31, 0x41, 0x51, 0x61, 0x71, 0x81, 0x91, // East South West North Red Green White
+&#125;
+</code></pre>
+<p>麻将若想赢，必须要 4 组 1 对（本文不考虑其它赢的可能，譬如 7 小对，再譬如存在 1 杠&#x2F;碰的前提下，3 组 1 对即可赢），若想组合出所有赢的手牌，那自然是要找出所有的对和所有的组。 对：共 34 对，每类型均可取 1 对。 组：共 34 + (9 - 2) * 3 组，每类型可取 1 相同牌组有 34 组，饼、条、万每类型可再取 9 - 2 顺序牌组有 21 组，共 55 组。</p>
+<pre><code>func findPairs() [][]byte &#123;
+    pairs := make([][]byte, 0, len(tiles))
+
+    for _, v := range tiles &#123;
+        pair := []byte&#123;v, v&#125;
+        pairs = append(pairs, pair)
+    &#125;
+
+    return pairs
+&#125;
+
+func findGroups() [][]byte &#123;
+    groups := make([][]byte, 0, len(tiles)+(9-2)*3)
+
+    // find three identical tiles
+    for _, v := range tiles &#123;
+        group := []byte&#123;v, v, v&#125;
+        groups = append(groups, group)
+    &#125;
+
+    // find three sequence tiles
+    for i := 2; i &lt; len(tiles); i++ &#123;
+        if tiles[i-2]+1 == tiles[i-1] &amp;&amp; tiles[i-1] == tiles[i]-1 &#123;
+            group := []byte&#123;tiles[i-2], tiles[i-1], tiles[i]&#125;
+            groups = append(groups, group)
+        &#125;
+    &#125;
+
+    return groups
+&#125;
+</code></pre>
+<p>虽然找出十分容易，但如何组合我当时着实迷糊了一会，问题出在 55 组里面 34 组相同牌组在组合的时候同 1 组肯定只能出现 1 次，但是另外 21 组顺序牌组在组合的时候同 1 组最多能出现 4 次（玩家就是不想杠呢！），总想着效率至上，但是相同列表里的组我却要做不同的处理，我都想过把这 55 组列表拆分成两个列表，复杂度骤升。最后释然，当前是数据准备阶段，考虑什么效率，最终拿到正确结果才是王道。暴力组合即可！！！</p>
+<p>通过这个函数校验手牌有效，直接排序使它变得简单容易理解，后面你会发现有效的手牌早晚是要排序的。</p>
+<pre><code>func checkValid(win []byte) bool &#123;
+    sort.Sort(byteSlice(win))
+
+    for i := 4; i &lt; len(win); i++ &#123;
+        if win[i] == win[i-4] &#123;
+            return false
+        &#125;
+    &#125;
+
+    return true
+&#125;
+</code></pre>
+<p>这里明确遇到效率问题，是我高估了 Golang 标准库里 bytes.Equal() 函数。执行 composeWin 运行时间目测要 1 小时以上（我并未运行完成过，从插入分段日志猜测时间会很长）。不过也不能怪它，思路本身都存在问题，随着组合结果越来越多，执行 notExist 代价将越来越大。</p>
+<pre><code>func notExist(win []byte, wins [][]byte) bool &#123;
+    for _, v := range wins &#123;
+        if bytes.Equal(win, v) &#123;
+            return false
+        &#125;
+    &#125;
+
+    return true
+&#125;
+
+func composeWin(pairs, groups [][]byte) [][]byte &#123;
+    wins := make([][]byte, 0, 11498658)
+
+    tmp := make([]byte, 14)
+    for _, pair := range pairs &#123;
+        for _, group1 := range groups &#123;
+            for _, group2 := range groups &#123;
+                for _, group3 := range groups &#123;
+                    for _, group4 := range groups &#123;
+                        copy(tmp, pair)
+                        copy(tmp[2:], group1)
+                        copy(tmp[5:], group2)
+                        copy(tmp[8:], group3)
+                        copy(tmp[11:], group4)
+
+                        if checkValid(tmp) &amp;&amp; notExist(tmp, wins) &#123;
+                            win := make([]byte, 0, 14)
+                            win = append(win, tmp...)
+                            wins = append(wins, win)
+                        &#125;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    return wins
+&#125;
+</code></pre>
+<p>通过下面这种方法，我将确认是否存在相同赢手牌的工作交给了 Golang map，几分钟就可得出结果。 我并未使用 string 类型做 map 键类型，其实这个方法并没有比 string 类型做键类型提升多少效率。反而多写了代码，增加了复杂度，后文会有测试数据。</p>
+<pre><code>type twoUint64 struct &#123;
+    H uint64 // High
+    L uint64 // Low
+&#125;
+
+func composeWinEx(pairs, groups [][]byte) map[twoUint64][]byte &#123;
+    wins := make(map[twoUint64][]byte)
+
+    var key twoUint64
+    tmp := make([]byte, 14)
+    for _, pair := range pairs &#123;
+        for _, group1 := range groups &#123;
+            for _, group2 := range groups &#123;
+                for _, group3 := range groups &#123;
+                    for _, group4 := range groups &#123;
+                        copy(tmp, pair)
+                        copy(tmp[2:], group1)
+                        copy(tmp[5:], group2)
+                        copy(tmp[8:], group3)
+                        copy(tmp[11:], group4)
+
+                        if checkValid(tmp) &#123;
+                            key.H = uint64(tmp[0])
+                            key.L = uint64(tmp[6])
+
+                            for _, v := range tmp[1:6] &#123;
+                                key.H = key.H&lt;&lt;8 + uint64(v)
+                            &#125;
+
+                            for _, v := range tmp[7:] &#123;
+                                key.L = key.L&lt;&lt;8 + uint64(v)
+                            &#125;
+
+                            if _, ok := wins[key]; !ok &#123;
+                                win := make([]byte, 0, 14)
+                                win = append(win, tmp...)
+                                wins[key] = win
+                            &#125;
+                        &#125;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    return wins
+&#125;
+</code></pre>
+<p>接下来说明 Thinkraft 提出的一位日本人的算法，请读者尽量去阅读 Thinkraft 的回答和日本人发布的 文章，我这里只对不易理解的地方作补充</p>
+<p>判定赢牌时需要注意两点</p>
+<p>该相同的要相同<br>该连续的要连续<br>举例说明 1 1 1 2 2 2 2 3 3 3 3 4 4 4 2 2 2 3 3 3 3 4 4 4 4 5 5 5 排序后的两副手牌都是赢，它们看着是否非常相似，如何概括这种赢类型，Thinkraft 把这叫做 牌型</p>
+<p>计算相同牌数量，若连续则继续计算相同牌数量，若不连续中间用数字 0 分割 1 1 1 -&gt; 3 1 1 1 2 2 2 2 -&gt; 3 4（1 2 连续） 1 1 1 2 2 2 2 3 3 3 3 -&gt; 3 4 4（2 3 连续） 1 1 1 2 2 2 2 3 3 3 3 4 4 4 -&gt; 3 4 4 3（3 4 连续） 同理可得 2 2 2 3 3 3 3 4 4 4 4 5 5 5 -&gt; 3 4 4 3</p>
+<p>1 1 1 2 3 4 6 7 8 东 东 东 西 西 1 1 1 -&gt; 3 1 1 1 2 -&gt; 3 1（1 2 连续） 1 1 1 2 3 -&gt; 3 1 1（2 3 连续） 1 1 1 2 3 4 -&gt; 3 1 1 1（3 4 连续） 1 1 1 2 3 4 6 -&gt; 3 1 1 1 0 1（4 6 不连续，用 0 分割） 1 1 1 2 3 4 6 7 -&gt; 3 1 1 1 0 1 1（6 7 连续） 1 1 1 2 3 4 6 7 8 -&gt; 3 1 1 1 0 1 1 1（7 8 连续） 1 1 1 2 3 4 6 7 8 东 东 东 -&gt; 3 1 1 1 0 1 1 1 0 3（8 东 不连续，用 0 分割） 1 1 1 2 3 4 6 7 8 东 东 东 西 西 -&gt; 3 1 1 1 0 1 1 1 0 3 0 2（东 西 不连续，用 0 分割）</p>
+<p>同理可得 1 2 3 5 6 7 一 二 三 五 六 七 西 西 -&gt; 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 2</p>
+<p>接下来是将其二进制化，采用如下规则 1 -&gt; 0 2 -&gt; 1 1 0 3 -&gt; 1 1 1 1 0 4 -&gt; 1 1 1 1 1 1 0 10 -&gt; 1 0 20 -&gt; 1 1 1 0 30 -&gt; 1 1 1 1 1 0 40 -&gt; 1 1 1 1 1 1 1 0 如此编码的好处就是编码后每张牌只占用 1 到 2 位二进制空间，如何理解这点？数字 1 2 3 4 分别代表相同牌数量，举例来说，规则中 4 或 40 代表了四张相同牌（区别仅是该相同牌是否和后面的连续），编码后的长度分别是 7 位（1 1 1 1 1 1 0）或 8 位（1 1 1 1 1 1 1 0），7 &#x2F; 4 &#x3D; 1.75，8 &#x2F; 4 &#x3D; 2，所以每张牌只占用 1 到 2 位二进制空间啦。</p>
+<p>在 Thinkraft 的回答评论里，有人认为这是改进的霍夫曼编码，我顺道学习一下霍夫曼编码。wiki-huffman 维基-霍夫曼 若真按照霍夫曼编码进行编码，反而无法保证将 14 张手牌数据存入 int32 里面，这里推演一番。</p>
+<p>根据方才计算相同牌数量，不连续以 0 分割，共会出现 0 1 2 3 4 五种字符，粗略统计出现次数如下[4:2755728 2:14386266 3:26038905 0:34871796 1:43069053]，将会得到如下霍夫曼编码 4 -&gt; 0 0 0 2 -&gt; 0 0 1 3 -&gt; 0 1 0 -&gt; 1 0 1 -&gt; 1 1 就拿这个来说 1 2 3 5 6 7 一 二 三 五 六 七 西 西 -&gt; 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 2 &#x3D;&#x3D;&gt; 至少要 16 * 2 + 1 * 3 &#x3D; 35 二进制位，所以无法存入 int32 里面。</p>
+<p>接下来这段就有点偏离原作者的算法啦，主要是我看不懂日文，对原作者这里的处理不太理解，恰巧 Thinkraft 又未细说这里，我已在知乎 Thinkraft 回答里添加评论说明了我的疑问，感兴趣的朋友可以去看看，我的知乎用户名：张圣超，第 30 条评论。</p>
+<p>其实理论已经讲明了，不管原作者是如何想的，我这样转成二进制总是没有错的 2 2 2 3 3 3 3 4 4 4 4 5 5 5 -&gt; 3 4 4 3 -&gt; 1 1 1 1 0 1 1 1 1 1 1 0 1 1 1 1 1 1 0 1 1 1 1 0 3 -&gt; 1 1 1 1 0 3 4 -&gt; 1 1 1 1 0 1 1 1 1 1 1 0 3 4 4 -&gt; 1 1 1 1 0 1 1 1 1 1 1 0 1 1 1 1 1 1 0 3 4 4 3 -&gt; 1 1 1 1 0 1 1 1 1 1 1 0 1 1 1 1 1 1 0 1 1 1 1 0</p>
+<p>1 1 1 2 3 4 6 7 8 东 东 东 西 西 -&gt; 3 1 1 1 0 1 1 1 0 3 0 2 -&gt; 1 1 1 1 0 0 0 1 0 0 0 1 0 1 1 1 1 1 0 1 1 0 1 2 3 5 6 7 一 二 三 五 六 七 西 西 -&gt; 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 2 -&gt; 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 1 1 0 你会发现当转化成的二进制序列初始为零时容易产生歧义，高位补 1 进而保留所有有效的二进制位，譬如程序异常你用[2 3 5 6 7 一 二 三 五 六 七 西 西]去调用转 int32 函数，得出的 int32 数值将会和上面的一致，导致程序将会判定失误。</p>
+<p>以下是我实现的上面所述逻辑 为了简化逻辑，我并未以 0 分割，我在需分割处数字直接 +10，如此以来，原作者与我对应如下 1 -&gt; 1（0x01） 2 -&gt; 2（0x02） 3 -&gt; 3（0x03） 4 -&gt; 4（0x04） 10 -&gt; 11（0x0B） 20 -&gt; 12（0x0C） 30 -&gt; 13（0x0D） 40 -&gt; 14（0x0E） 这样做着实方便后面的 switch 逻辑，会很清晰</p>
+<pre><code>func bytesToInt(win []byte) int &#123;
+    tmp := make([]byte, 0, 17)
+    tmp = append(tmp, 1)
+    for i, pos := 1, 0; i &lt; len(win); i++ &#123;
+        if win[i-1] == win[i] &#123;
+            tmp[pos]++
+        &#125; else if win[i-1]+1 == win[i] &#123;
+            tmp = append(tmp, 1)
+            pos++
+        &#125; else &#123;
+            tmp = append(tmp, 1)
+            tmp[pos] += 0x0A
+            pos++
+        &#125;
+    &#125;
+
+    res := 1
+    for _, v := range tmp &#123;
+        switch v &#123;
+        case 0x01:
+            res &lt;&lt;= 1
+        case 0x02:
+            res &lt;&lt;= 3
+            res |= 0x06
+        case 0x03:
+            res &lt;&lt;= 5
+            res |= 0x1E
+        case 0x04:
+            res &lt;&lt;= 7
+            res |= 0x7E
+        case 0x0B:
+            res &lt;&lt;= 2
+            res |= 0x02
+        case 0x0C:
+            res &lt;&lt;= 4
+            res |= 0x0E
+        case 0x0D:
+            res &lt;&lt;= 6
+            res |= 0x3E
+        case 0x0E:
+            res &lt;&lt;= 8
+            res |= 0xFE
+        &#125;
+    &#125;
+
+    return res
+&#125;
+</code></pre>
+<p>下面展示压力测试结果，不要担心测试环境，默认的随机种子，注定它们经历了相同的手牌 标准 10000000 次和三个癞子 1000 次输赢判定，统计赢次数，统计用时 int 算法</p>
+<pre><code>Test total 10000000, Win 30, Time 59.662091651s
+Test total 1000, Win 8, Time 20.836001166s
+</code></pre>
+<p>two uint64 算法</p>
+<pre><code>Test total 10000000, Win 30, Time 1m22.517894824s
+Test total 1000, Win 8, Time 24.289389045s
+</code></pre>
+<p>string 算法</p>
+<pre><code>Test total 10000000, Win 30, Time 1m26.392626271s
+Test total 1000, Win 8, Time 24.320570688s
+</code></pre>
+<p>这时它们的效率已相差甚微，就看你想如何使用啦，这里提一点，不管如何，int 算法是占用内存最少的算法，在不使用算法转为 int 时，占用内存大约 64 * 2 * 11,498,658 &#x3D; 1,471,828,224（175M），但是转为 int 时，占用内存大约 32 * 8185 &#x3D; 261,920（32K），差距就在这里啦。</p>
+<p>三个癞子情况下，如何有效减少循环次数，我是这样考虑的，借用上面提到的两点：该相同要相同，该连续的要连续，癞子替换成已存在的牌或是和已存在的牌连续的牌为最好！细心的人可能会有这样的担心，三个癞子本就可以通过变换自成一组，和已存在的牌都不相同，和已存在的牌都不连续，我虽无法证明，但这应该是多虑啦，因为你以不相同非连续处理癞子都能赢，相同连续处理癞子早就赢了，你可以想几个例子测验下。</p>
+<pre><code>func availableTiles(win []byte) map[byte]bool &#123;
+    available := make(map[byte]bool)
+
+    for _, v := range win &#123;
+        if v &gt; 0x01 &amp;&amp; v &lt; 0x09 || v &gt; 0x11 &amp;&amp; v &lt; 0x19 || v &gt; 0x21 &amp;&amp; v &lt; 0x29 &#123;
+            available[v-1], available[v+1] = true, true
+        &#125;
+
+        available[v] = true
+    &#125;
+
+    return available
+&#125;
+
+func benchmarkWinEx3Ex(n int, wins map[string][]byte) &#123;
+    var win int
+    now := time.Now()
+    for i := 0; i &lt; n; i++ &#123;
+        perm := rand.Perm(136)
+        hand := make([]byte, 14)
+
+        for j := 0; j &lt; 14; j++ &#123;
+            hand[j] = full[perm[j]]
+        &#125;
+
+    EXIT:
+        for v1 := range availableTiles(hand[3:]) &#123;
+            hand[2] = v1
+            for v2 := range availableTiles(hand[2:]) &#123;
+                hand[1] = v2
+                for v3 := range availableTiles(hand[1:]) &#123;
+                    hand[0] = v3
+
+                    tmp := make([]byte, 0, 14)
+                    tmp = append(tmp, hand...)
+
+                    if checkValid(tmp) &#123;
+                        if _, ok := wins[string(tmp)]; ok &#123;
+                            win++
+                            break EXIT
+                        &#125;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    fmt.Printf(&quot;Test total %d, Win %d, Time %v\n&quot;, n, win, time.Since(now))
+&#125;
+</code></pre>
+<p>其实上面的逻辑依然可以优化，替换癞子后不用再校验是否有效，但是效率方面不升反降，毕竟随机出来的手牌很杂，能触发到不能替换的牌的情况很少。</p>
+<pre><code>func appendAvailableTiles(origin map[byte]int, ap ...byte) map[byte]int &#123;
+    available := make(map[byte]int)
+
+    for k, v := range origin &#123;
+        available[k] = v
+    &#125;
+
+    for _, v := range ap &#123;
+        if v &gt; 0x01 &amp;&amp; v &lt; 0x09 || v &gt; 0x11 &amp;&amp; v &lt; 0x19 || v &gt; 0x21 &amp;&amp; v &lt; 0x29 &#123;
+            if _, ok := available[v-1]; !ok &#123;
+                available[v-1] = 0
+            &#125;
+
+            if _, ok := available[v+1]; !ok &#123;
+                available[v+1] = 0
+            &#125;
+        &#125;
+
+        available[v]++
+    &#125;
+
+    return available
+&#125;
+
+func benchmarkWinEx3Ex2(n int, wins map[string][]byte) &#123;
+    var win int
+    now := time.Now()
+    for i := 0; i &lt; n; i++ &#123;
+        perm := rand.Perm(136)
+        hand := make([]byte, 14)
+
+        for j := 0; j &lt; 14; j++ &#123;
+            hand[j] = full[perm[j]]
+        &#125;
+
+        available1 := appendAvailableTiles(nil, hand[3:]...)
+
+    EXIT:
+        for v1 := range available1 &#123;
+            if available1[v1] &gt;= 4 &#123;
+                continue
+            &#125;
+            available2 := appendAvailableTiles(available1, v1)
+            for v2 := range available2 &#123;
+                if available2[v2] &gt;= 4 &#123;
+                    continue
+                &#125;
+                available3 := appendAvailableTiles(available2, v2)
+                for v3 := range available3 &#123;
+                    if available3[v3] &gt;= 4 &#123;
+                        continue
+                    &#125;
+                    tmp := make([]byte, 0, 14)
+                    tmp = append(tmp, v1, v2, v3)
+                    tmp = append(tmp, hand[3:]...)
+
+                    sort.Sort(byteSlice(tmp))
+
+                    if _, ok := wins[string(tmp)]; ok &#123;
+                        win++
+                        break EXIT
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    fmt.Printf(&quot;Test total %d, Win %d, Time %v\n&quot;, n, win, time.Since(now))
+&#125;
+</code></pre>
+<p>老方法与需要校验有效方法效率对比，提升四倍</p>
+<pre><code>Test total 10000, Win 56, Time 3m59.80354974s
+Test total 10000, Win 56, Time 54.301180241s
+</code></pre>
+<p>两个新方法效率对比，不升反降</p>
+<pre><code>Test total 50000, Win 277, Time 4m34.589149569s
+Test total 50000, Win 277, Time 5m18.078941139s
+</code></pre>
+<p>全部源码</p>
+<pre><code>package main
+
+import (
+    &quot;bytes&quot;
+    &quot;encoding/json&quot;
+    &quot;fmt&quot;
+    &quot;io&quot;
+    &quot;log&quot;
+    &quot;math/rand&quot;
+    &quot;os&quot;
+    &quot;sort&quot;
+    &quot;time&quot;
+)
+
+var tiles = []byte&#123;
+    0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, // Dots
+    0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, // Bamboo
+    0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, // Characters
+    0x31, 0x41, 0x51, 0x61, 0x71, 0x81, 0x91, // East South West North Red Green White
+&#125;
+
+var full = []byte&#123;
+    0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, // Dots
+    0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, // Bamboo
+    0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, // Characters
+    0x31, 0x41, 0x51, 0x61, 0x71, 0x81, 0x91, // East South West North Red Green White
+    0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, // Dots
+    0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, // Bamboo
+    0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, // Characters
+    0x31, 0x41, 0x51, 0x61, 0x71, 0x81, 0x91, // East South West North Red Green White
+    0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, // Dots
+    0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, // Bamboo
+    0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, // Characters
+    0x31, 0x41, 0x51, 0x61, 0x71, 0x81, 0x91, // East South West North Red Green White
+    0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, // Dots
+    0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, // Bamboo
+    0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, // Characters
+    0x31, 0x41, 0x51, 0x61, 0x71, 0x81, 0x91, // East South West North Red Green White
+&#125;
+
+func findPairs() [][]byte &#123;
+    pairs := make([][]byte, 0, len(tiles))
+
+    for _, v := range tiles &#123;
+        pair := []byte&#123;v, v&#125;
+        pairs = append(pairs, pair)
+    &#125;
+
+    return pairs
+&#125;
+
+func findGroups() [][]byte &#123;
+    groups := make([][]byte, 0, len(tiles)+(9-2)*3)
+
+    // find three identical tiles
+    for _, v := range tiles &#123;
+        group := []byte&#123;v, v, v&#125;
+        groups = append(groups, group)
+    &#125;
+
+    // find three sequence tiles
+    for i := 2; i &lt; len(tiles); i++ &#123;
+        if tiles[i-2]+1 == tiles[i-1] &amp;&amp; tiles[i-1] == tiles[i]-1 &#123;
+            group := []byte&#123;tiles[i-2], tiles[i-1], tiles[i]&#125;
+            groups = append(groups, group)
+        &#125;
+    &#125;
+
+    return groups
+&#125;
+
+type byteSlice []byte
+
+func (b byteSlice) Len() int &#123;
+    return len(b)
+&#125;
+
+func (b byteSlice) Less(i, j int) bool &#123;
+    return b[i] &lt; b[j]
+&#125;
+
+func (b byteSlice) Swap(i, j int) &#123;
+    b[i], b[j] = b[j], b[i]
+&#125;
+
+func checkValid(win []byte) bool &#123;
+    sort.Sort(byteSlice(win))
+
+    for i := 4; i &lt; len(win); i++ &#123;
+        if win[i] == win[i-4] &#123;
+            return false
+        &#125;
+    &#125;
+
+    return true
+&#125;
+
+func notExist(win []byte, wins [][]byte) bool &#123;
+    for _, v := range wins &#123;
+        if bytes.Equal(win, v) &#123;
+            return false
+        &#125;
+    &#125;
+
+    return true
+&#125;
+
+func composeWin(pairs, groups [][]byte) [][]byte &#123;
+    wins := make([][]byte, 0, 11498658)
+
+    tmp := make([]byte, 14)
+    for _, pair := range pairs &#123;
+        for _, group1 := range groups &#123;
+            for _, group2 := range groups &#123;
+                for _, group3 := range groups &#123;
+                    for _, group4 := range groups &#123;
+                        copy(tmp, pair)
+                        copy(tmp[2:], group1)
+                        copy(tmp[5:], group2)
+                        copy(tmp[8:], group3)
+                        copy(tmp[11:], group4)
+
+                        if checkValid(tmp) &amp;&amp; notExist(tmp, wins) &#123;
+                            win := make([]byte, 0, 14)
+                            win = append(win, tmp...)
+                            wins = append(wins, win)
+                        &#125;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    return wins
+&#125;
+
+type twoUint64 struct &#123;
+    H uint64 // High
+    L uint64 // Low
+&#125;
+
+func composeWinEx(pairs, groups [][]byte) map[twoUint64][]byte &#123;
+    wins := make(map[twoUint64][]byte)
+
+    var key twoUint64
+    tmp := make([]byte, 14)
+    for _, pair := range pairs &#123;
+        for _, group1 := range groups &#123;
+            for _, group2 := range groups &#123;
+                for _, group3 := range groups &#123;
+                    for _, group4 := range groups &#123;
+                        copy(tmp, pair)
+                        copy(tmp[2:], group1)
+                        copy(tmp[5:], group2)
+                        copy(tmp[8:], group3)
+                        copy(tmp[11:], group4)
+
+                        if checkValid(tmp) &#123;
+                            key.H = uint64(tmp[0])
+                            key.L = uint64(tmp[6])
+
+                            for _, v := range tmp[1:6] &#123;
+                                key.H = key.H&lt;&lt;8 + uint64(v)
+                            &#125;
+
+                            for _, v := range tmp[7:] &#123;
+                                key.L = key.L&lt;&lt;8 + uint64(v)
+                            &#125;
+
+                            if _, ok := wins[key]; !ok &#123;
+                                win := make([]byte, 0, 14)
+                                win = append(win, tmp...)
+                                wins[key] = win
+                            &#125;
+                        &#125;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    return wins
+&#125;
+
+type jsonData struct &#123;
+    H uint64 // High
+    L uint64 // Low
+    V []byte // Value
+&#125;
+
+func toJSON() &#123;
+    pairs := findPairs()
+
+    groups := findGroups()
+
+    wins := composeWinEx(pairs, groups)
+
+    f, err := os.Create(&quot;json.data&quot;)
+    defer f.Close()
+
+    if err != nil &#123;
+        log.Fatal(&quot;Create&quot;, err)
+    &#125;
+
+    var jd jsonData
+
+    enc := json.NewEncoder(f)
+
+    for k, v := range wins &#123;
+        jd.H = k.H
+        jd.L = k.L
+        jd.V = v
+
+        if err := enc.Encode(jd); err != nil &#123;
+            log.Fatal(&quot;Encode&quot;, err)
+        &#125;
+    &#125;
+&#125;
+
+func benchmarkWin(n int, wins map[twoUint64][]byte) &#123;
+    var win int
+    var key twoUint64
+    now := time.Now()
+    for i := 0; i &lt; n; i++ &#123;
+        perm := rand.Perm(136)
+        hand := make([]byte, 14)
+
+        for j := 0; j &lt; 14; j++ &#123;
+            hand[j] = full[perm[j]]
+        &#125;
+
+        sort.Sort(byteSlice(hand))
+
+        key.H = uint64(hand[0])
+        key.L = uint64(hand[6])
+
+        for _, v := range hand[1:6] &#123;
+            key.H = key.H&lt;&lt;8 + uint64(v)
+        &#125;
+
+        for _, v := range hand[7:] &#123;
+            key.L = key.L&lt;&lt;8 + uint64(v)
+        &#125;
+
+        if _, ok := wins[key]; ok &#123;
+            win++
+        &#125;
+    &#125;
+
+    fmt.Printf(&quot;Test total %d, Win %d, Time %v\n&quot;, n, win, time.Since(now))
+&#125;
+
+func benchmarkWinEx(n int, wins map[twoUint64][]byte) &#123;
+    var win int
+    var key twoUint64
+    now := time.Now()
+    for i := 0; i &lt; n; i++ &#123;
+        perm := rand.Perm(136)
+        hand := make([]byte, 14)
+
+        for j := 0; j &lt; 14; j++ &#123;
+            hand[j] = full[perm[j]]
+        &#125;
+
+    EXIT:
+        for _, v1 := range tiles &#123;
+            for _, v2 := range tiles &#123;
+                for _, v3 := range tiles &#123;
+                    tmp := make([]byte, 0, 14)
+                    tmp = append(tmp, v1, v2, v3)
+                    tmp = append(tmp, hand[3:]...)
+
+                    if checkValid(tmp) &#123;
+                        key.H = uint64(tmp[0])
+                        key.L = uint64(tmp[6])
+
+                        for _, v := range tmp[1:6] &#123;
+                            key.H = key.H&lt;&lt;8 + uint64(v)
+                        &#125;
+
+                        for _, v := range tmp[7:] &#123;
+                            key.L = key.L&lt;&lt;8 + uint64(v)
+                        &#125;
+
+                        if _, ok := wins[key]; ok &#123;
+                            win++
+                            break EXIT
+                        &#125;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    fmt.Printf(&quot;Test total %d, Win %d, Time %v\n&quot;, n, win, time.Since(now))
+&#125;
+
+type simpleData struct &#123;
+    K int    // Key
+    V []byte // Value
+&#125;
+
+func bytesToInt(win []byte) int &#123;
+    tmp := make([]byte, 0, 17)
+    tmp = append(tmp, 1)
+    for i, pos := 1, 0; i &lt; len(win); i++ &#123;
+        if win[i-1] == win[i] &#123;
+            tmp[pos]++
+        &#125; else if win[i-1]+1 == win[i] &#123;
+            tmp = append(tmp, 1)
+            pos++
+        &#125; else &#123;
+            tmp = append(tmp, 1)
+            tmp[pos] += 0x0A
+            pos++
+        &#125;
+    &#125;
+
+    res := 1
+    for _, v := range tmp &#123;
+        switch v &#123;
+        case 0x01:
+            res &lt;&lt;= 1
+        case 0x02:
+            res &lt;&lt;= 3
+            res |= 0x06
+        case 0x03:
+            res &lt;&lt;= 5
+            res |= 0x1E
+        case 0x04:
+            res &lt;&lt;= 7
+            res |= 0x7E
+        case 0x0B:
+            res &lt;&lt;= 2
+            res |= 0x02
+        case 0x0C:
+            res &lt;&lt;= 4
+            res |= 0x0E
+        case 0x0D:
+            res &lt;&lt;= 6
+            res |= 0x3E
+        case 0x0E:
+            res &lt;&lt;= 8
+            res |= 0xFE
+        &#125;
+    &#125;
+
+    return res
+&#125;
+
+func toSimple(wins map[twoUint64][]byte) &#123;
+    f, err := os.Create(&quot;simple.data&quot;)
+    defer f.Close()
+
+    if err != nil &#123;
+        log.Fatal(&quot;Create&quot;, err)
+    &#125;
+
+    var sd simpleData
+
+    enc := json.NewEncoder(f)
+
+    for _, win := range wins &#123;
+        sd.K = bytesToInt(win)
+        sd.V = win
+
+        if err := enc.Encode(sd); err != nil &#123;
+            log.Fatal(&quot;Encode&quot;, err)
+        &#125;
+    &#125;
+&#125;
+
+func fromSimple() &#123;
+    f, err := os.Open(&quot;simple.data&quot;)
+    defer f.Close()
+
+    if err != nil &#123;
+        log.Fatal(&quot;Open&quot;, err)
+    &#125;
+
+    var sd simpleData
+
+    dec := json.NewDecoder(f)
+
+    wins := make(map[int]bool)
+
+    for &#123;
+        if err := dec.Decode(&amp;sd); err == io.EOF &#123;
+            break
+        &#125; else if err != nil &#123;
+            log.Fatal(&quot;Decode&quot;, err)
+        &#125;
+
+        wins[sd.K] = true
+    &#125;
+
+    benchmarkWin2(10000000, wins)
+    benchmarkWinEx2(1000, wins)
+&#125;
+
+func benchmarkWin2(n int, wins map[int]bool) &#123;
+    var win int
+    now := time.Now()
+    for i := 0; i &lt; n; i++ &#123;
+        perm := rand.Perm(136)
+        hand := make([]byte, 14)
+
+        for j := 0; j &lt; 14; j++ &#123;
+            hand[j] = full[perm[j]]
+        &#125;
+
+        sort.Sort(byteSlice(hand))
+
+        if _, ok := wins[bytesToInt(hand)]; ok &#123;
+            win++
+        &#125;
+    &#125;
+
+    fmt.Printf(&quot;Test total %d, Win %d, Time %v\n&quot;, n, win, time.Since(now))
+&#125;
+
+func benchmarkWinEx2(n int, wins map[int]bool) &#123;
+    var win int
+    now := time.Now()
+    for i := 0; i &lt; n; i++ &#123;
+        perm := rand.Perm(136)
+        hand := make([]byte, 14)
+
+        for j := 0; j &lt; 14; j++ &#123;
+            hand[j] = full[perm[j]]
+        &#125;
+
+    EXIT:
+        for _, v1 := range tiles &#123;
+            for _, v2 := range tiles &#123;
+                for _, v3 := range tiles &#123;
+                    tmp := make([]byte, 0, 14)
+                    tmp = append(tmp, v1, v2, v3)
+                    tmp = append(tmp, hand[3:]...)
+
+                    if checkValid(tmp) &#123;
+                        if _, ok := wins[bytesToInt(tmp)]; ok &#123;
+                            win++
+                            break EXIT
+                        &#125;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    fmt.Printf(&quot;Test total %d, Win %d, Time %v\n&quot;, n, win, time.Since(now))
+&#125;
+
+func benchmarkWin3(n int, wins map[twoUint64][]byte) &#123;
+    winsCopy := make(map[string][]byte)
+    for _, v := range wins &#123;
+        winsCopy[string(v)] = v
+    &#125;
+
+    var win int
+    now := time.Now()
+    for i := 0; i &lt; n; i++ &#123;
+        perm := rand.Perm(136)
+        hand := make([]byte, 14)
+
+        for j := 0; j &lt; 14; j++ &#123;
+            hand[j] = full[perm[j]]
+        &#125;
+
+        sort.Sort(byteSlice(hand))
+
+        if _, ok := winsCopy[string(hand)]; ok &#123;
+            win++
+        &#125;
+    &#125;
+
+    fmt.Printf(&quot;Test total %d, Win %d, Time %v\n&quot;, n, win, time.Since(now))
+
+    benchmarkWinEx3(1000, winsCopy)
+&#125;
+
+func benchmarkWinEx3(n int, wins map[string][]byte) &#123;
+    var win int
+    now := time.Now()
+    for i := 0; i &lt; n; i++ &#123;
+        perm := rand.Perm(136)
+        hand := make([]byte, 14)
+
+        for j := 0; j &lt; 14; j++ &#123;
+            hand[j] = full[perm[j]]
+        &#125;
+
+    EXIT:
+        for _, v1 := range tiles &#123;
+            for _, v2 := range tiles &#123;
+                for _, v3 := range tiles &#123;
+                    tmp := make([]byte, 0, 14)
+                    tmp = append(tmp, v1, v2, v3)
+                    tmp = append(tmp, hand[3:]...)
+
+                    if checkValid(tmp) &#123;
+                        if _, ok := wins[string(tmp)]; ok &#123;
+                            win++
+                            break EXIT
+                        &#125;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    fmt.Printf(&quot;Test total %d, Win %d, Time %v\n&quot;, n, win, time.Since(now))
+&#125;
+
+func availableTiles(win []byte) map[byte]bool &#123;
+    available := make(map[byte]bool)
+
+    for _, v := range win &#123;
+        if v &gt; 0x01 &amp;&amp; v &lt; 0x09 || v &gt; 0x11 &amp;&amp; v &lt; 0x19 || v &gt; 0x21 &amp;&amp; v &lt; 0x29 &#123;
+            available[v-1], available[v+1] = true, true
+        &#125;
+
+        available[v] = true
+    &#125;
+
+    return available
+&#125;
+
+func benchmarkWinEx3Ex(n int, wins map[string][]byte) &#123;
+    var win int
+    now := time.Now()
+    for i := 0; i &lt; n; i++ &#123;
+        perm := rand.Perm(136)
+        hand := make([]byte, 14)
+
+        for j := 0; j &lt; 14; j++ &#123;
+            hand[j] = full[perm[j]]
+        &#125;
+
+    EXIT:
+        for v1 := range availableTiles(hand[3:]) &#123;
+            hand[2] = v1
+            for v2 := range availableTiles(hand[2:]) &#123;
+                hand[1] = v2
+                for v3 := range availableTiles(hand[1:]) &#123;
+                    hand[0] = v3
+
+                    tmp := make([]byte, 0, 14)
+                    tmp = append(tmp, hand...)
+
+                    if checkValid(tmp) &#123;
+                        if _, ok := wins[string(tmp)]; ok &#123;
+                            win++
+                            break EXIT
+                        &#125;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    fmt.Printf(&quot;Test total %d, Win %d, Time %v\n&quot;, n, win, time.Since(now))
+&#125;
+
+func appendAvailableTiles(origin map[byte]int, ap ...byte) map[byte]int &#123;
+    available := make(map[byte]int)
+
+    for k, v := range origin &#123;
+        available[k] = v
+    &#125;
+
+    for _, v := range ap &#123;
+        if v &gt; 0x01 &amp;&amp; v &lt; 0x09 || v &gt; 0x11 &amp;&amp; v &lt; 0x19 || v &gt; 0x21 &amp;&amp; v &lt; 0x29 &#123;
+            if _, ok := available[v-1]; !ok &#123;
+                available[v-1] = 0
+            &#125;
+
+            if _, ok := available[v+1]; !ok &#123;
+                available[v+1] = 0
+            &#125;
+        &#125;
+
+        available[v]++
+    &#125;
+
+    return available
+&#125;
+
+func benchmarkWinEx3Ex2(n int, wins map[string][]byte) &#123;
+    var win int
+    now := time.Now()
+    for i := 0; i &lt; n; i++ &#123;
+        perm := rand.Perm(136)
+        hand := make([]byte, 14)
+
+        for j := 0; j &lt; 14; j++ &#123;
+            hand[j] = full[perm[j]]
+        &#125;
+
+        available1 := appendAvailableTiles(nil, hand[3:]...)
+
+    EXIT:
+        for v1 := range available1 &#123;
+            if available1[v1] &gt;= 4 &#123;
+                continue
+            &#125;
+            available2 := appendAvailableTiles(available1, v1)
+            for v2 := range available2 &#123;
+                if available2[v2] &gt;= 4 &#123;
+                    continue
+                &#125;
+                available3 := appendAvailableTiles(available2, v2)
+                for v3 := range available3 &#123;
+                    if available3[v3] &gt;= 4 &#123;
+                        continue
+                    &#125;
+                    tmp := make([]byte, 0, 14)
+                    tmp = append(tmp, v1, v2, v3)
+                    tmp = append(tmp, hand[3:]...)
+
+                    sort.Sort(byteSlice(tmp))
+
+                    if _, ok := wins[string(tmp)]; ok &#123;
+                        win++
+                        break EXIT
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    fmt.Printf(&quot;Test total %d, Win %d, Time %v\n&quot;, n, win, time.Since(now))
+&#125;
+
+func main() &#123;
+    // fromSimple()
+    // return
+    f, err := os.Open(&quot;json.data&quot;)
+    defer f.Close()
+
+    if err != nil &#123;
+        log.Fatal(&quot;Open&quot;, err)
+    &#125;
+
+    var jd jsonData
+
+    dec := json.NewDecoder(f)
+
+    wins := make(map[twoUint64][]byte)
+
+    for &#123;
+        if err := dec.Decode(&amp;jd); err == io.EOF &#123;
+            break
+        &#125; else if err != nil &#123;
+            log.Fatal(&quot;Decode&quot;, err)
+        &#125;
+
+        wins[twoUint64&#123;
+            H: jd.H,
+            L: jd.L,
+        &#125;] = jd.V
+    &#125;
+
+    benchmarkWin(10000000, wins)
+    benchmarkWinEx(1000, wins)
+    //benchmarkWin3(10000000, wins)
+&#125;
+</code></pre>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://wanghuaren.github.io/2017/03/02/page19/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://wanghuaren.github.io/2017/03/02/page19/&text=带癞子麻将查表判断胡牌高效率低内存算法"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://wanghuaren.github.io/2017/03/02/page19/&title=带癞子麻将查表判断胡牌高效率低内存算法"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://wanghuaren.github.io/2017/03/02/page19/&is_video=false&description=带癞子麻将查表判断胡牌高效率低内存算法"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=带癞子麻将查表判断胡牌高效率低内存算法&body=Check out this article: https://wanghuaren.github.io/2017/03/02/page19/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://wanghuaren.github.io/2017/03/02/page19/&title=带癞子麻将查表判断胡牌高效率低内存算法"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://wanghuaren.github.io/2017/03/02/page19/&title=带癞子麻将查表判断胡牌高效率低内存算法"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://wanghuaren.github.io/2017/03/02/page19/&title=带癞子麻将查表判断胡牌高效率低内存算法"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://wanghuaren.github.io/2017/03/02/page19/&title=带癞子麻将查表判断胡牌高效率低内存算法"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://wanghuaren.github.io/2017/03/02/page19/&name=带癞子麻将查表判断胡牌高效率低内存算法&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://wanghuaren.github.io/2017/03/02/page19/&t=带癞子麻将查表判断胡牌高效率低内存算法"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2024
+    wnghuaren
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

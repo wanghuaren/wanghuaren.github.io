@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="K8S配置 #CentOS需要添加源sudo sed -i -e “s|mirrorlist&#x3D;|#mirrorlist&#x3D;|g” &#x2F;etc&#x2F;yum.repos.d&#x2F;CentOS-* &amp;&amp; sudo sed -i -e “s|#baseurl&#x3D;http:&#x2F;&#x2F;mirror.centos.org|baseurl&#x3D;http:&#x2F;&#x2F;va">
+<meta property="og:type" content="article">
+<meta property="og:title" content="K8s配置">
+<meta property="og:url" content="https://wanghuaren.github.io/2023/07/08/page30/index.html">
+<meta property="og:site_name" content="on my way">
+<meta property="og:description" content="K8S配置 #CentOS需要添加源sudo sed -i -e “s|mirrorlist&#x3D;|#mirrorlist&#x3D;|g” &#x2F;etc&#x2F;yum.repos.d&#x2F;CentOS-* &amp;&amp; sudo sed -i -e “s|#baseurl&#x3D;http:&#x2F;&#x2F;mirror.centos.org|baseurl&#x3D;http:&#x2F;&#x2F;va">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-07-08T06:06:24.000Z">
+<meta property="article:modified_time" content="2024-01-08T11:12:54.430Z">
+<meta property="article:author" content="wnghuaren">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>K8s配置</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2023/08/28/page29/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/01/21/page25/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://wanghuaren.github.io/2023/07/08/page30/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://wanghuaren.github.io/2023/07/08/page30/&text=K8s配置"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://wanghuaren.github.io/2023/07/08/page30/&title=K8s配置"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://wanghuaren.github.io/2023/07/08/page30/&is_video=false&description=K8s配置"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=K8s配置&body=Check out this article: https://wanghuaren.github.io/2023/07/08/page30/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://wanghuaren.github.io/2023/07/08/page30/&title=K8s配置"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://wanghuaren.github.io/2023/07/08/page30/&title=K8s配置"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://wanghuaren.github.io/2023/07/08/page30/&title=K8s配置"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://wanghuaren.github.io/2023/07/08/page30/&title=K8s配置"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://wanghuaren.github.io/2023/07/08/page30/&name=K8s配置&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://wanghuaren.github.io/2023/07/08/page30/&t=K8s配置"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85docker%E6%89%80%E9%9C%80%E7%9A%84%E5%B7%A5%E5%85%B7"><span class="toc-number">1.</span> <span class="toc-text">安装docker所需的工具</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E9%98%BF%E9%87%8C%E4%BA%91%E7%9A%84docker%E6%BA%90"><span class="toc-number">2.</span> <span class="toc-text">配置阿里云的docker源</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8docker"><span class="toc-number">3.</span> <span class="toc-text">启动docker</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E9%97%ADselinux"><span class="toc-number">4.</span> <span class="toc-text">关闭selinux</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%B4%E6%97%B6%E7%A6%81%E7%94%A8selinux"><span class="toc-number">5.</span> <span class="toc-text">临时禁用selinux</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#setenforce-0"><span class="toc-number">6.</span> <span class="toc-text">setenforce 0</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B0%B8%E4%B9%85%E5%85%B3%E9%97%AD-%E4%BF%AE%E6%94%B9-etc-sysconfig-selinux%E6%96%87%E4%BB%B6%E8%AE%BE%E7%BD%AE"><span class="toc-number">7.</span> <span class="toc-text">永久关闭 修改&#x2F;etc&#x2F;sysconfig&#x2F;selinux文件设置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A6%81%E7%94%A8%E4%BA%A4%E6%8D%A2%E5%88%86%E5%8C%BA"><span class="toc-number">8.</span> <span class="toc-text">禁用交换分区</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#swapoff-a"><span class="toc-number">9.</span> <span class="toc-text">swapoff -a</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B0%B8%E4%B9%85%E7%A6%81%E7%94%A8%EF%BC%8C%E6%89%93%E5%BC%80-etc-fstab%E6%B3%A8%E9%87%8A%E6%8E%89swap%E9%82%A3%E4%B8%80%E8%A1%8C%E3%80%82"><span class="toc-number">10.</span> <span class="toc-text">永久禁用，打开&#x2F;etc&#x2F;fstab注释掉swap那一行。</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%86%85%E6%A0%B8%E5%8F%82%E6%95%B0"><span class="toc-number">11.</span> <span class="toc-text">修改内核参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E9%85%8D%E7%BD%AEk8s%E9%98%BF%E9%87%8C%E4%BA%91%E6%BA%90"><span class="toc-number">12.</span> <span class="toc-text">执行配置k8s阿里云源</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8kubelet%E6%9C%8D%E5%8A%A1"><span class="toc-number">13.</span> <span class="toc-text">启动kubelet服务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sudo-vim-etc-docker-daemon-json"><span class="toc-number">14.</span> <span class="toc-text">sudo vim &#x2F;etc&#x2F;docker&#x2F;daemon.json</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">15.</span> <span class="toc-text">{</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%80%9Cstorage-driver%E2%80%9D-%E2%80%9C%E2%80%9C"><span class="toc-number">16.</span> <span class="toc-text">“storage-driver”: ““</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-1"><span class="toc-number">17.</span> <span class="toc-text">}</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#systemctl-daemon-reload-systemctl-restart-docker"><span class="toc-number">18.</span> <span class="toc-text">systemctl daemon-reload &amp;&amp; systemctl restart docker</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#vim-etc-sysconfig-kubelet"><span class="toc-number">19.</span> <span class="toc-text">vim &#x2F;etc&#x2F;sysconfig&#x2F;kubelet</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#systemctl-daemon-reload-systemctl-restart-kubelet"><span class="toc-number">20.</span> <span class="toc-text">systemctl daemon-reload &amp;&amp; systemctl restart kubelet</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E7%AE%A1%E7%90%86%E8%8A%82%E7%82%B9%E4%B8%AD%E7%94%A8%E5%88%B0%E7%9A%846%E4%B8%AAdocker%E9%95%9C%E5%83%8F%EF%BC%8C%E4%BD%A0%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8docker-images%E6%9F%A5%E7%9C%8B%E5%88%B0"><span class="toc-number">21.</span> <span class="toc-text">下载管理节点中用到的6个docker镜像，你可以使用docker images查看到</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%87%8D%E8%A6%81%EF%BC%9A%E8%BF%99%E9%87%8C%E7%9A%84%E2%80%93apiserver-advertise-address%E4%BD%BF%E7%94%A8%E7%9A%84%E6%98%AFmaster%E5%92%8Cnode%E9%97%B4%E8%83%BD%E4%BA%92%E7%9B%B8ping%E9%80%9A%E7%9A%84ip"><span class="toc-number">22.</span> <span class="toc-text">重要：这里的–apiserver-advertise-address使用的是master和node间能互相ping通的ip</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%99%E9%87%8C%E9%9C%80%E8%A6%81%E5%A4%A7%E6%A6%82%E4%B8%A4%E5%88%86%E9%92%9F%E7%AD%89%E5%BE%85%EF%BC%8C%E4%BC%9A%E5%8D%A1%E5%9C%A8-preflight-You-can-also-perform-this-action-in-beforehand-using-%E2%80%98%E2%80%99kubeadm-config-images-pull"><span class="toc-number">23.</span> <span class="toc-text">这里需要大概两分钟等待，会卡在[preflight] You can also perform this action in beforehand using ‘’kubeadm config images pull</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BE%8B%E5%A6%82"><span class="toc-number">24.</span> <span class="toc-text">例如:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Calico"><span class="toc-number">25.</span> <span class="toc-text">Calico</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#wget-https-docs-projectcalico-org-manifests-calico-yaml-%E2%80%93no-check-certificate"><span class="toc-number">26.</span> <span class="toc-text">wget https:&#x2F;&#x2F;docs.projectcalico.org&#x2F;manifests&#x2F;calico.yaml –no-check-certificate</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#timedatectl-set-timezone-Asia-Shanghai"><span class="toc-number">27.</span> <span class="toc-text">timedatectl set-timezone Asia&#x2F;Shanghai</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#vim-etc-chrony-conf"><span class="toc-number">28.</span> <span class="toc-text">vim &#x2F;etc&#x2F;chrony.conf</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pool-2-centos-pool-ntp-org-iburst"><span class="toc-number">29.</span> <span class="toc-text"># pool 2.centos.pool.ntp.org iburst</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#server-210-72-145-44-iburst"><span class="toc-number">30.</span> <span class="toc-text">server 210.72.145.44 iburst</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#server-ntp-aliyun-com-iburst"><span class="toc-number">31.</span> <span class="toc-text">server ntp.aliyun.com iburst</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#systemctl-restart-chronyd-service-systemctl-enable-chronyd-service"><span class="toc-number">32.</span> <span class="toc-text">systemctl restart chronyd.service &amp;&amp; systemctl enable chronyd.service</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#chronyc-sources-v-date"><span class="toc-number">33.</span> <span class="toc-text">chronyc sources -v &amp;&amp; date</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ports"><span class="toc-number">34.</span> <span class="toc-text">ports:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%80%A6"><span class="toc-number">35.</span> <span class="toc-text">…</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7"><span class="toc-number">36.</span> <span class="toc-text">创建用户</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%8E%88%E6%9D%83"><span class="toc-number">37.</span> <span class="toc-text">用户授权</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7Token"><span class="toc-number">38.</span> <span class="toc-text">获取用户Token</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#https-masterip-nodeip-31000"><span class="toc-number">39.</span> <span class="toc-text">https:&#x2F;&#x2F;(masterip&#x2F;nodeip):31000</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        K8s配置
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">wnghuaren</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-07-08T06:06:24.000Z" class="dt-published" itemprop="datePublished">2023-07-08</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>K8S配置</p>
+<p>#CentOS需要添加源<br>sudo sed -i -e “s|mirrorlist&#x3D;|#mirrorlist&#x3D;|g” &#x2F;etc&#x2F;yum.repos.d&#x2F;CentOS-* &amp;&amp; sudo sed -i -e “s|#baseurl&#x3D;<a href="http://mirror.centos.org|baseurl=http//vault.centos.org|g">http://mirror.centos.org|baseurl=http://vault.centos.org|g</a>“ &#x2F;etc&#x2F;yum.repos.d&#x2F;CentOS-*</p>
+<h1 id="安装docker所需的工具"><a href="#安装docker所需的工具" class="headerlink" title="安装docker所需的工具"></a>安装docker所需的工具</h1><p>yum install -y yum-utils device-mapper-persistent-data lvm2</p>
+<h1 id="配置阿里云的docker源"><a href="#配置阿里云的docker源" class="headerlink" title="配置阿里云的docker源"></a>配置阿里云的docker源</h1><p>yum-config-manager –add-repo <a target="_blank" rel="noopener" href="http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo">http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</a><br>#安装docker<br>curl -s <a target="_blank" rel="noopener" href="https://get.docker.com/">https://get.docker.com/</a> | sh</p>
+<h1 id="启动docker"><a href="#启动docker" class="headerlink" title="启动docker"></a>启动docker</h1><p>systemctl enable docker &amp;&amp; systemctl start docker<br>#关闭防火墙<br>systemctl stop firewalld &amp;&amp; systemctl disable firewalld</p>
+<h1 id="关闭selinux"><a href="#关闭selinux" class="headerlink" title="关闭selinux"></a>关闭selinux</h1><h1 id="临时禁用selinux"><a href="#临时禁用selinux" class="headerlink" title="临时禁用selinux"></a>临时禁用selinux</h1><h1 id="setenforce-0"><a href="#setenforce-0" class="headerlink" title="setenforce 0"></a>setenforce 0</h1><h1 id="永久关闭-修改-etc-sysconfig-selinux文件设置"><a href="#永久关闭-修改-etc-sysconfig-selinux文件设置" class="headerlink" title="永久关闭 修改&#x2F;etc&#x2F;sysconfig&#x2F;selinux文件设置"></a>永久关闭 修改&#x2F;etc&#x2F;sysconfig&#x2F;selinux文件设置</h1><p>setenforce 0 &amp;&amp; sed -i ‘s&#x2F;SELINUX&#x3D;permissive&#x2F;SELINUX&#x3D;disabled&#x2F;‘ &#x2F;etc&#x2F;sysconfig&#x2F;selinux &amp;&amp; sed -i “s&#x2F;SELINUX&#x3D;enforcing&#x2F;SELINUX&#x3D;disabled&#x2F;g” &#x2F;etc&#x2F;selinux&#x2F;config</p>
+<h1 id="禁用交换分区"><a href="#禁用交换分区" class="headerlink" title="禁用交换分区"></a>禁用交换分区</h1><h1 id="swapoff-a"><a href="#swapoff-a" class="headerlink" title="swapoff -a"></a>swapoff -a</h1><h1 id="永久禁用，打开-etc-fstab注释掉swap那一行。"><a href="#永久禁用，打开-etc-fstab注释掉swap那一行。" class="headerlink" title="永久禁用，打开&#x2F;etc&#x2F;fstab注释掉swap那一行。"></a>永久禁用，打开&#x2F;etc&#x2F;fstab注释掉swap那一行。</h1><p>swapoff -a &amp;&amp; sed -i ‘s&#x2F;.<em>swap.</em>&#x2F;#&amp;&#x2F;‘ &#x2F;etc&#x2F;fstab</p>
+<h1 id="修改内核参数"><a href="#修改内核参数" class="headerlink" title="修改内核参数"></a>修改内核参数</h1><p>cat &lt;<EOF >  &#x2F;etc&#x2F;sysctl.d&#x2F;k8s.conf<br>net.bridge.bridge-nf-call-ip6tables &#x3D; 1<br>net.bridge.bridge-nf-call-iptables &#x3D; 1<br>EOF<br>sysctl –system</p>
+<h1 id="执行配置k8s阿里云源"><a href="#执行配置k8s阿里云源" class="headerlink" title="执行配置k8s阿里云源"></a>执行配置k8s阿里云源</h1><p>cat &lt;<EOF > &#x2F;etc&#x2F;yum.repos.d&#x2F;kubernetes.repo<br>[kubernetes]<br>name&#x3D;Kubernetes<br>baseurl&#x3D;<a target="_blank" rel="noopener" href="https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/">https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/</a><br>enabled&#x3D;1<br>gpgcheck&#x3D;1<br>repo_gpgcheck&#x3D;1<br>gpgkey&#x3D;<a target="_blank" rel="noopener" href="https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg">https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg</a> <a target="_blank" rel="noopener" href="https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg">https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</a><br>EOF<br>#安装kubelet、kubeadm<br>yum install -y kubelet-1.23.0 kubeadm-1.23.0</p>
+<h1 id="启动kubelet服务"><a href="#启动kubelet服务" class="headerlink" title="启动kubelet服务"></a>启动kubelet服务</h1><p>systemctl enable kubelet &amp;&amp; systemctl start kubelet</p>
+<p>#修改docker配置<br>#docker驱动查看<br>#docker info | grep “Storage Driver”<br>#停止docker<br>#systemctl stop docker<br>#更改docker驱动前先备份<br>#sudo cp -rf &#x2F;var&#x2F;lib&#x2F;docker &#x2F;var&#x2F;lib&#x2F;docker.backup<br>#修改存储驱动</p>
+<h1 id="sudo-vim-etc-docker-daemon-json"><a href="#sudo-vim-etc-docker-daemon-json" class="headerlink" title="sudo vim &#x2F;etc&#x2F;docker&#x2F;daemon.json"></a>sudo vim &#x2F;etc&#x2F;docker&#x2F;daemon.json</h1><h1 id=""><a href="#" class="headerlink" title="{"></a>{</h1><h1 id="“storage-driver”-““"><a href="#“storage-driver”-““" class="headerlink" title="“storage-driver”: ““"></a>“storage-driver”: “<new_storage_driver>“</h1><h1 id="-1"><a href="#-1" class="headerlink" title="}"></a>}</h1><h1 id="systemctl-daemon-reload-systemctl-restart-docker"><a href="#systemctl-daemon-reload-systemctl-restart-docker" class="headerlink" title="systemctl daemon-reload &amp;&amp; systemctl restart docker"></a>systemctl daemon-reload &amp;&amp; systemctl restart docker</h1><p>#更改docker驱动与kubeadm统一<br>cat &lt;<EOF > &#x2F;etc&#x2F;docker&#x2F;daemon.json<br>{<br>     “exec-opts”: [<br>         “native.cgroupdriver&#x3D;systemd”<br>     ]<br>}<br>EOF<br>systemctl daemon-reload &amp;&amp; systemctl restart docker<br>#更改驱动后清理旧驱动<br>#sudo rm -rf &#x2F;var&#x2F;lib&#x2F;docker<br>#sudo mv &#x2F;var&#x2F;lib&#x2F;docker.backup &#x2F;var&#x2F;lib&#x2F;docker</p>
+<p>#修改kubeadm配置</p>
+<h1 id="vim-etc-sysconfig-kubelet"><a href="#vim-etc-sysconfig-kubelet" class="headerlink" title="vim &#x2F;etc&#x2F;sysconfig&#x2F;kubelet"></a>vim &#x2F;etc&#x2F;sysconfig&#x2F;kubelet</h1><p>#修改kub启动驱动<br>#打开后添加参数 KUBELET_EXTRA_ARGS&#x3D;–cgroup-driver&#x3D;cgroupfs<br>#解决initial timeout 40s(1.23不支持)<br>#打开后添加参数 KUBELET_EXTRA_ARGS&#x3D;–feature-gates&#x3D;SupportPodPidsLimit&#x3D;false,SupportNodePidsLimit&#x3D;false</p>
+<h1 id="systemctl-daemon-reload-systemctl-restart-kubelet"><a href="#systemctl-daemon-reload-systemctl-restart-kubelet" class="headerlink" title="systemctl daemon-reload &amp;&amp; systemctl restart kubelet"></a>systemctl daemon-reload &amp;&amp; systemctl restart kubelet</h1><p>cat &lt;<EOF > &#x2F;etc&#x2F;hosts<br>192.168.111.129 master.xhhy.com kube_master<br>192.168.111.130 node1.xhhy.com kube_node1<br>192.168.111.131 node2.xhhy.com kube_node2<br>EOF<br>#使host生效<br>systemctl restart NetworkManager</p>
+<p>#如果有问题,重启一下<br>#reboot</p>
+<p>#以下master主机需要安装<br>#安装kubectl-master<br>yum install -y kubectl-1.23.0</p>
+<h1 id="下载管理节点中用到的6个docker镜像，你可以使用docker-images查看到"><a href="#下载管理节点中用到的6个docker镜像，你可以使用docker-images查看到" class="headerlink" title="下载管理节点中用到的6个docker镜像，你可以使用docker images查看到"></a>下载管理节点中用到的6个docker镜像，你可以使用docker images查看到</h1><h1 id="重要：这里的–apiserver-advertise-address使用的是master和node间能互相ping通的ip"><a href="#重要：这里的–apiserver-advertise-address使用的是master和node间能互相ping通的ip" class="headerlink" title="重要：这里的–apiserver-advertise-address使用的是master和node间能互相ping通的ip"></a>重要：这里的–apiserver-advertise-address使用的是master和node间能互相ping通的ip</h1><h1 id="这里需要大概两分钟等待，会卡在-preflight-You-can-also-perform-this-action-in-beforehand-using-‘’kubeadm-config-images-pull"><a href="#这里需要大概两分钟等待，会卡在-preflight-You-can-also-perform-this-action-in-beforehand-using-‘’kubeadm-config-images-pull" class="headerlink" title="这里需要大概两分钟等待，会卡在[preflight] You can also perform this action in beforehand using ‘’kubeadm config images pull"></a>这里需要大概两分钟等待，会卡在[preflight] You can also perform this action in beforehand using ‘’kubeadm config images pull</h1><p>kubeadm init –apiserver-advertise-address&#x3D;192.168.111.129 –image-repository&#x3D;registry.aliyuncs.com&#x2F;google_containers –kubernetes-version v1.23.0 –service-cidr&#x3D;10.10.10.0&#x2F;24 –pod-network-cidr&#x3D;10.20.20.0&#x2F;24 –token-ttl 0 –ignore-preflight-errors&#x3D;all<br>#systemctl status kubelet<br>#journalctl -xeu kubelet<br>#重置一下,再次进行init<br>#kubeadm reset<br>#rm -rf &#x2F;etc&#x2F;cni&#x2F;net.d</p>
+<p>#拷贝k8s认证文件<br>mkdir -p $HOME&#x2F;.kube<br>sudo cp -i &#x2F;etc&#x2F;kubernetes&#x2F;admin.conf $HOME&#x2F;.kube&#x2F;config &amp;&amp; sudo chown $(id -u):$(id -g) $HOME&#x2F;.kube&#x2F;config</p>
+<p>#master节点创建token,kubeadm init时会生成token<br>#手动创建可以加入集群的token<br>#kubeadm token create –print-join-command<br>#其它node节点加入K8S集群(token有效期24小时)命令</p>
+<h1 id="例如"><a href="#例如" class="headerlink" title="例如:"></a>例如:</h1><p>#kubeadm join 192.168.111.129:6443 –token zfuvyw.f2j9i81atjcmrm6o –discovery-token-ca-cert-hash sha256:5826b43bcdcd6943bc281e3d134ea0844d40bffed0856a41137a5c79ea6828e3 </p>
+<h1 id="Calico"><a href="#Calico" class="headerlink" title="Calico"></a>Calico</h1><p>wget <a target="_blank" rel="noopener" href="https://docs.projectcalico.org/v3.19/manifests/calico.yaml">https://docs.projectcalico.org/v3.19/manifests/calico.yaml</a> –no-check-certificate</p>
+<h1 id="wget-https-docs-projectcalico-org-manifests-calico-yaml-–no-check-certificate"><a href="#wget-https-docs-projectcalico-org-manifests-calico-yaml-–no-check-certificate" class="headerlink" title="wget https://docs.projectcalico.org/manifests/calico.yaml –no-check-certificate"></a>wget <a target="_blank" rel="noopener" href="https://docs.projectcalico.org/manifests/calico.yaml">https://docs.projectcalico.org/manifests/calico.yaml</a> –no-check-certificate</h1><p>#修改为国内镜像加速站<br>cat calico.yaml |grep ‘image:’<br>sed -i ‘s#docker.io&#x2F;##g’ calico.yaml<br>#修改calico.yaml文件中CALICO_IPV4POOL_CIDR的value与–pod-network-cidr相同<br>#例如:–pod-network-cidr&#x3D;10.20.20.0&#x2F;24<br>#部署<br>kubectl apply -f calico.yaml<br>#删除<br>#kubectl delete -f calico.yaml<br>#查看状态，执行完上一条命令需要等一会才全部running<br>kubectl get pods -n kube-system</p>
+<p>#设置时区</p>
+<h1 id="timedatectl-set-timezone-Asia-Shanghai"><a href="#timedatectl-set-timezone-Asia-Shanghai" class="headerlink" title="timedatectl set-timezone Asia&#x2F;Shanghai"></a>timedatectl set-timezone Asia&#x2F;Shanghai</h1><h1 id="vim-etc-chrony-conf"><a href="#vim-etc-chrony-conf" class="headerlink" title="vim &#x2F;etc&#x2F;chrony.conf"></a>vim &#x2F;etc&#x2F;chrony.conf</h1><h1 id="pool-2-centos-pool-ntp-org-iburst"><a href="#pool-2-centos-pool-ntp-org-iburst" class="headerlink" title="# pool 2.centos.pool.ntp.org iburst"></a># pool 2.centos.pool.ntp.org iburst</h1><h1 id="server-210-72-145-44-iburst"><a href="#server-210-72-145-44-iburst" class="headerlink" title="server 210.72.145.44 iburst"></a>server 210.72.145.44 iburst</h1><h1 id="server-ntp-aliyun-com-iburst"><a href="#server-ntp-aliyun-com-iburst" class="headerlink" title="server ntp.aliyun.com iburst"></a>server ntp.aliyun.com iburst</h1><h1 id="systemctl-restart-chronyd-service-systemctl-enable-chronyd-service"><a href="#systemctl-restart-chronyd-service-systemctl-enable-chronyd-service" class="headerlink" title="systemctl restart chronyd.service &amp;&amp; systemctl enable chronyd.service"></a>systemctl restart chronyd.service &amp;&amp; systemctl enable chronyd.service</h1><h1 id="chronyc-sources-v-date"><a href="#chronyc-sources-v-date" class="headerlink" title="chronyc sources -v &amp;&amp; date"></a>chronyc sources -v &amp;&amp; date</h1><p>#登陆Token<br>#eyJhbGciOiJSUzI1NiIsImtpZCI6IkREaW1TVWNTVU9UWldtaDNuZkhpc1RqS09hZEo2NFhVa0JEVEZqa0I3S1kifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJkYXNoYm9hcmQtYWRtaW4tdG9rZW4tZnJ0azYiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZGFzaGJvYXJkLWFkbWluIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiMzY0NzNmNWMtZDk4Ny00MDk4LTg2YzItNWEyNmM5MThiYjY4Iiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmRhc2hib2FyZC1hZG1pbiJ9.IASOTQCa16-cJRh7Tn7V8ZFyiDomT4jT2_GLel0Xe0pCJaivJUQFEKkrRI7P8uQqKviI5HlqKJvJCltjmsXkqe7M8Mx7AhsCqv-QO0xtUgJ4amcWu644C-IzMF9bKH6Gvu_s38NMO0DTkZdQkTidA8KqQfkCgomgOTzkgy7BphX2pk5ibjtIjo-c-ViOwfxCQB6-7-7kRlzsZ8OfsPvxQ9W526NufZchbdGzhCQKLpkhKJh_X1rK3l46ErLwwN3CLw2L459RhSuQLumI9g2oju8SG_7wDu3rwKo2T3eTfeKnTN8AplmbMhgTAHMqWpTGEhs6t-o8HrdcD6QL5kx-ZQ<br>#部署Dashboard<br>#报错就多试几下<br>wget <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/kubernetes/dashboard/v2.6.1/aio/deploy/recommended.yaml">https://raw.githubusercontent.com/kubernetes/dashboard/v2.6.1/aio/deploy/recommended.yaml</a><br>#修改39行 nodePort范围 30000-32767<br>#spec</p>
+<h1 id="ports"><a href="#ports" class="headerlink" title="ports:"></a>ports:</h1><h1 id="…"><a href="#…" class="headerlink" title="…"></a>…</h1><p>#增加   nodePort: 31000<br>#增加   type:NodePort<br>kubectl apply -f recommended.yaml<br>#kubectl delete -f recommended.yaml</p>
+<p>#在master节点创建service account并绑定默认cluster-admin管理员集群角色</p>
+<h1 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h1><p>kubectl create serviceaccount dashboard-admin -n kube-system</p>
+<h1 id="用户授权"><a href="#用户授权" class="headerlink" title="用户授权"></a>用户授权</h1><p>kubectl create clusterrolebinding dashboard-admin –clusterrole&#x3D;cluster-admin –serviceaccount&#x3D;kube-system:dashboard-admin</p>
+<h1 id="获取用户Token"><a href="#获取用户Token" class="headerlink" title="获取用户Token"></a>获取用户Token</h1><p>kubectl describe secrets -n kube-system $(kubectl -n kube-system get secret | awk ‘&#x2F;dashboard-admin&#x2F;{print $1}’)</p>
+<p>#访问</p>
+<h1 id="https-masterip-nodeip-31000"><a href="#https-masterip-nodeip-31000" class="headerlink" title="https:&#x2F;&#x2F;(masterip&#x2F;nodeip):31000"></a>https:&#x2F;&#x2F;(masterip&#x2F;nodeip):31000</h1><p>#修改kube名字<br>#修改系统主机名<br>hostname kube_master</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85docker%E6%89%80%E9%9C%80%E7%9A%84%E5%B7%A5%E5%85%B7"><span class="toc-number">1.</span> <span class="toc-text">安装docker所需的工具</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E9%98%BF%E9%87%8C%E4%BA%91%E7%9A%84docker%E6%BA%90"><span class="toc-number">2.</span> <span class="toc-text">配置阿里云的docker源</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8docker"><span class="toc-number">3.</span> <span class="toc-text">启动docker</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E9%97%ADselinux"><span class="toc-number">4.</span> <span class="toc-text">关闭selinux</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%B4%E6%97%B6%E7%A6%81%E7%94%A8selinux"><span class="toc-number">5.</span> <span class="toc-text">临时禁用selinux</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#setenforce-0"><span class="toc-number">6.</span> <span class="toc-text">setenforce 0</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B0%B8%E4%B9%85%E5%85%B3%E9%97%AD-%E4%BF%AE%E6%94%B9-etc-sysconfig-selinux%E6%96%87%E4%BB%B6%E8%AE%BE%E7%BD%AE"><span class="toc-number">7.</span> <span class="toc-text">永久关闭 修改&#x2F;etc&#x2F;sysconfig&#x2F;selinux文件设置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A6%81%E7%94%A8%E4%BA%A4%E6%8D%A2%E5%88%86%E5%8C%BA"><span class="toc-number">8.</span> <span class="toc-text">禁用交换分区</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#swapoff-a"><span class="toc-number">9.</span> <span class="toc-text">swapoff -a</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B0%B8%E4%B9%85%E7%A6%81%E7%94%A8%EF%BC%8C%E6%89%93%E5%BC%80-etc-fstab%E6%B3%A8%E9%87%8A%E6%8E%89swap%E9%82%A3%E4%B8%80%E8%A1%8C%E3%80%82"><span class="toc-number">10.</span> <span class="toc-text">永久禁用，打开&#x2F;etc&#x2F;fstab注释掉swap那一行。</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%86%85%E6%A0%B8%E5%8F%82%E6%95%B0"><span class="toc-number">11.</span> <span class="toc-text">修改内核参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E9%85%8D%E7%BD%AEk8s%E9%98%BF%E9%87%8C%E4%BA%91%E6%BA%90"><span class="toc-number">12.</span> <span class="toc-text">执行配置k8s阿里云源</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8kubelet%E6%9C%8D%E5%8A%A1"><span class="toc-number">13.</span> <span class="toc-text">启动kubelet服务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sudo-vim-etc-docker-daemon-json"><span class="toc-number">14.</span> <span class="toc-text">sudo vim &#x2F;etc&#x2F;docker&#x2F;daemon.json</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">15.</span> <span class="toc-text">{</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%80%9Cstorage-driver%E2%80%9D-%E2%80%9C%E2%80%9C"><span class="toc-number">16.</span> <span class="toc-text">“storage-driver”: ““</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-1"><span class="toc-number">17.</span> <span class="toc-text">}</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#systemctl-daemon-reload-systemctl-restart-docker"><span class="toc-number">18.</span> <span class="toc-text">systemctl daemon-reload &amp;&amp; systemctl restart docker</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#vim-etc-sysconfig-kubelet"><span class="toc-number">19.</span> <span class="toc-text">vim &#x2F;etc&#x2F;sysconfig&#x2F;kubelet</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#systemctl-daemon-reload-systemctl-restart-kubelet"><span class="toc-number">20.</span> <span class="toc-text">systemctl daemon-reload &amp;&amp; systemctl restart kubelet</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E7%AE%A1%E7%90%86%E8%8A%82%E7%82%B9%E4%B8%AD%E7%94%A8%E5%88%B0%E7%9A%846%E4%B8%AAdocker%E9%95%9C%E5%83%8F%EF%BC%8C%E4%BD%A0%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8docker-images%E6%9F%A5%E7%9C%8B%E5%88%B0"><span class="toc-number">21.</span> <span class="toc-text">下载管理节点中用到的6个docker镜像，你可以使用docker images查看到</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%87%8D%E8%A6%81%EF%BC%9A%E8%BF%99%E9%87%8C%E7%9A%84%E2%80%93apiserver-advertise-address%E4%BD%BF%E7%94%A8%E7%9A%84%E6%98%AFmaster%E5%92%8Cnode%E9%97%B4%E8%83%BD%E4%BA%92%E7%9B%B8ping%E9%80%9A%E7%9A%84ip"><span class="toc-number">22.</span> <span class="toc-text">重要：这里的–apiserver-advertise-address使用的是master和node间能互相ping通的ip</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%99%E9%87%8C%E9%9C%80%E8%A6%81%E5%A4%A7%E6%A6%82%E4%B8%A4%E5%88%86%E9%92%9F%E7%AD%89%E5%BE%85%EF%BC%8C%E4%BC%9A%E5%8D%A1%E5%9C%A8-preflight-You-can-also-perform-this-action-in-beforehand-using-%E2%80%98%E2%80%99kubeadm-config-images-pull"><span class="toc-number">23.</span> <span class="toc-text">这里需要大概两分钟等待，会卡在[preflight] You can also perform this action in beforehand using ‘’kubeadm config images pull</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BE%8B%E5%A6%82"><span class="toc-number">24.</span> <span class="toc-text">例如:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Calico"><span class="toc-number">25.</span> <span class="toc-text">Calico</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#wget-https-docs-projectcalico-org-manifests-calico-yaml-%E2%80%93no-check-certificate"><span class="toc-number">26.</span> <span class="toc-text">wget https:&#x2F;&#x2F;docs.projectcalico.org&#x2F;manifests&#x2F;calico.yaml –no-check-certificate</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#timedatectl-set-timezone-Asia-Shanghai"><span class="toc-number">27.</span> <span class="toc-text">timedatectl set-timezone Asia&#x2F;Shanghai</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#vim-etc-chrony-conf"><span class="toc-number">28.</span> <span class="toc-text">vim &#x2F;etc&#x2F;chrony.conf</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pool-2-centos-pool-ntp-org-iburst"><span class="toc-number">29.</span> <span class="toc-text"># pool 2.centos.pool.ntp.org iburst</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#server-210-72-145-44-iburst"><span class="toc-number">30.</span> <span class="toc-text">server 210.72.145.44 iburst</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#server-ntp-aliyun-com-iburst"><span class="toc-number">31.</span> <span class="toc-text">server ntp.aliyun.com iburst</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#systemctl-restart-chronyd-service-systemctl-enable-chronyd-service"><span class="toc-number">32.</span> <span class="toc-text">systemctl restart chronyd.service &amp;&amp; systemctl enable chronyd.service</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#chronyc-sources-v-date"><span class="toc-number">33.</span> <span class="toc-text">chronyc sources -v &amp;&amp; date</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ports"><span class="toc-number">34.</span> <span class="toc-text">ports:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%80%A6"><span class="toc-number">35.</span> <span class="toc-text">…</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7"><span class="toc-number">36.</span> <span class="toc-text">创建用户</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%8E%88%E6%9D%83"><span class="toc-number">37.</span> <span class="toc-text">用户授权</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7Token"><span class="toc-number">38.</span> <span class="toc-text">获取用户Token</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#https-masterip-nodeip-31000"><span class="toc-number">39.</span> <span class="toc-text">https:&#x2F;&#x2F;(masterip&#x2F;nodeip):31000</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://wanghuaren.github.io/2023/07/08/page30/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://wanghuaren.github.io/2023/07/08/page30/&text=K8s配置"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://wanghuaren.github.io/2023/07/08/page30/&title=K8s配置"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://wanghuaren.github.io/2023/07/08/page30/&is_video=false&description=K8s配置"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=K8s配置&body=Check out this article: https://wanghuaren.github.io/2023/07/08/page30/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://wanghuaren.github.io/2023/07/08/page30/&title=K8s配置"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://wanghuaren.github.io/2023/07/08/page30/&title=K8s配置"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://wanghuaren.github.io/2023/07/08/page30/&title=K8s配置"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://wanghuaren.github.io/2023/07/08/page30/&title=K8s配置"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://wanghuaren.github.io/2023/07/08/page30/&name=K8s配置&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://wanghuaren.github.io/2023/07/08/page30/&t=K8s配置"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2024
+    wnghuaren
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
