@@ -14,7 +14,7 @@
 <meta property="og:description" content="ES生成token 和证书curl -X POST -u elastic:_U7w9XwLA+DG1Sk*D5 “https:&#x2F;&#x2F;128.199.147.142:9200&#x2F;_security&#x2F;service&#x2F;elastic&#x2F;kibana&#x2F;credential&#x2F;token&#x2F;token1?pretty“ –cacert &#x2F;root&#x2F;Desktop&#x2F;http_ca.crt">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-19T07:13:52.000Z">
-<meta property="article:modified_time" content="2024-03-19T02:58:11.605Z">
+<meta property="article:modified_time" content="2024-08-23T02:59:34.523Z">
 <meta property="article:author" content="wnghuaren">
 <meta name="twitter:card" content="summary">
     
@@ -84,7 +84,7 @@
         <li><a class="icon" aria-label="上一篇" href="/2024/03/19/page34/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" aria-label="下一篇" href="/2024/03/19/page35/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="下一篇" href="/2024/03/19/page28/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -114,7 +114,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ES%E7%94%9F%E6%88%90token-%E5%92%8C%E8%AF%81%E4%B9%A6"><span class="toc-number">1.</span> <span class="toc-text">ES生成token 和证书</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mysql%E5%AF%86%E7%A0%81%E8%A7%A3%E5%86%B3"><span class="toc-number">2.</span> <span class="toc-text">Mysql密码解决</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%90MySQL%E3%80%91MySQL%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81%E6%88%96%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">【MySQL】MySQL忘记密码或修改密码的方法</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ES%E7%94%9F%E6%88%90token-%E5%92%8C%E8%AF%81%E4%B9%A6"><span class="toc-number">1.</span> <span class="toc-text">ES生成token 和证书</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mysql%E5%AF%86%E7%A0%81%E8%A7%A3%E5%86%B3"><span class="toc-number">2.</span> <span class="toc-text">Mysql密码解决</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%90MySQL%E3%80%91MySQL%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81%E6%88%96%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">【MySQL】MySQL忘记密码或修改密码的方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mac%E4%B8%AD%E9%87%8D%E5%90%AF%E6%9C%8D%E5%8A%A1"><span class="toc-number">2.2.</span> <span class="toc-text">Mac中重启服务</span></a></li></ol></li></ol>
       </div>
     
   </span>
@@ -186,6 +186,8 @@
 <p>flush privileges;</p>
 <p>set password for root@localhost&#x3D;’root2023’</p>
 <p>忘记密码情况下，重置密码完成！</p>
+<h2 id="Mac中重启服务"><a href="#Mac中重启服务" class="headerlink" title="Mac中重启服务"></a>Mac中重启服务</h2><pre><code>sudo /usr/local/mysql-8.4.0-macos14-x86_64/support-files/mysql.server start
+</code></pre>
 
   </div>
 </article>
@@ -213,7 +215,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ES%E7%94%9F%E6%88%90token-%E5%92%8C%E8%AF%81%E4%B9%A6"><span class="toc-number">1.</span> <span class="toc-text">ES生成token 和证书</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mysql%E5%AF%86%E7%A0%81%E8%A7%A3%E5%86%B3"><span class="toc-number">2.</span> <span class="toc-text">Mysql密码解决</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%90MySQL%E3%80%91MySQL%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81%E6%88%96%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">【MySQL】MySQL忘记密码或修改密码的方法</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ES%E7%94%9F%E6%88%90token-%E5%92%8C%E8%AF%81%E4%B9%A6"><span class="toc-number">1.</span> <span class="toc-text">ES生成token 和证书</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mysql%E5%AF%86%E7%A0%81%E8%A7%A3%E5%86%B3"><span class="toc-number">2.</span> <span class="toc-text">Mysql密码解决</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%90MySQL%E3%80%91MySQL%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81%E6%88%96%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">【MySQL】MySQL忘记密码或修改密码的方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mac%E4%B8%AD%E9%87%8D%E5%90%AF%E6%9C%8D%E5%8A%A1"><span class="toc-number">2.2.</span> <span class="toc-text">Mac中重启服务</span></a></li></ol></li></ol>
       </div>
     
 
